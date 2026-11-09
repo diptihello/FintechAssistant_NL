@@ -204,6 +204,7 @@ All detailed project documents reside in the [`docs/`](file:///d:/Dipti/NextLeap
 | [docs/eval.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/eval.md) | Quantitative evaluation metrics (Retrieval Recall, Faithfulness, Latency) |
 | [docs/issues.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/issues.md) | Manual verification log, bug fixes, edge cases, and root cause analyses |
 | [docs/deployment-plan.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/deployment-plan.md) | Comprehensive Railway cloud deployment blueprint, Docker setup, and CI/CD sync |
+| [docs/vercel-deployment.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/vercel-deployment.md) | Vercel Serverless Function configuration, ephemeral `/tmp` adaptation, and deployment guide |
 | [docs/stitch_ui_prompt.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/stitch_ui_prompt.md) | Design specifications and prompt used for the Stitch UI generation |
 
 ---

@@ -8,9 +8,16 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Ensure HuggingFace Hub and transformers use local cached weights without network retries
-os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["TRANSFORMERS_OFFLINE"] = "1"
+# Ensure HuggingFace Hub and transformers use local cached weights locally, while allowing download in serverless environments (Vercel)
+if os.getenv("VERCEL") != "1":
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+else:
+    os.environ["HF_HUB_OFFLINE"] = "0"
+    os.environ["TRANSFORMERS_OFFLINE"] = "0"
+    os.environ.setdefault("HF_HOME", "/tmp/huggingface")
+    os.environ.setdefault("TRANSFORMERS_CACHE", "/tmp/huggingface")
+    os.environ.setdefault("TORCH_HOME", "/tmp/torch")
 
 # Load .env file
 load_dotenv()

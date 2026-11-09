@@ -1,0 +1,16 @@
+.git
+.github
+tests
+venv
+.venv
+env
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+docs
+.vscode
+.idea
+stitch_fintech_faq_assistant_ui
+vectorstore/chroma_db
+*.md
