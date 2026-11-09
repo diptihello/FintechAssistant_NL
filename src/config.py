@@ -42,7 +42,7 @@ RELEVANCE_THRESHOLD = float(os.getenv("RELEVANCE_THRESHOLD", "0.3"))
 
 # ── Server ─────────────────────────────────────────────────────────────────────
 API_HOST = os.getenv("API_HOST", "0.0.0.0")
-API_PORT = int(os.getenv("API_PORT", "8000"))
+API_PORT = int(os.getenv("PORT", os.getenv("API_PORT", "8000")))
 STREAMLIT_PORT = int(os.getenv("STREAMLIT_PORT", "8501"))
 
 # ── Thread management ─────────────────────────────────────────────────────────
