@@ -29,6 +29,7 @@ A production-grade, compliance-first Retrieval-Augmented Generation (RAG) assist
   - **Layer 3 (Prompt Grounding)**: Zero-temperature system prompt enforcing strict factual adherence.
   - **Layer 4 (Response Validator)**: Deterministically validates output length ($\le 3$ sentences), ensures citation URL presence, appends last-updated timestamp footer, and performs secondary PII suppression.
 - **Stitch FinTech UI**: High-conviction UI designed with the *Facts-First Financial Intelligence* design system, featuring SEBI compliance notice, quick-action prompt chips, verified source badges, proof IDs, and real-time vector store indicators.
+- **Automated Daily Ingestion Scheduler (GitHub Actions)**: Daily cron workflow executing at 10:00 AM IST (`30 4 * * *`) that automatically scrapes the 5 Groww sources, normalizes data, chunks facts, computes MiniLM-L6-v2 embeddings, and updates ChromaDB.
 
 ---
 

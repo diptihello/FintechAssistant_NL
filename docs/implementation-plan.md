@@ -14,7 +14,7 @@
 
 ## Implementation Overview
 
-The project is divided into **6 phases**, ordered by dependency. Each phase lists its tasks, files to create, inputs/outputs, acceptance criteria, and estimated effort. No phase should begin until the previous phase's acceptance criteria are met.
+The project is divided into **7 phases**, ordered by dependency. Each phase lists its tasks, files to create, inputs/outputs, acceptance criteria, and estimated effort. No phase should begin until the previous phase's acceptance criteria are met.
 
 > **Scope:** 4 HDFC mutual fund / ETF Groww URLs only. No stock pages, no non-HDFC sources.
 
@@ -26,12 +26,14 @@ flowchart LR
     P4["Phase 4\nRAG Pipeline\n& LLM Integration"]
     P5["Phase 5\nAPI & Multi-Thread\nChat"]
     P6["Phase 6\nUI, Testing &\nDocumentation"]
+    P7["Phase 7\nDaily Scheduler\n(GitHub Actions)"]
 
     P1 --> P2
     P2 --> P3
     P3 --> P4
     P4 --> P5
     P5 --> P6
+    P6 --> P7
 ```
 
 | Phase | Name | LLM / Tech | Depends On | Estimated Effort |
@@ -41,8 +43,9 @@ flowchart LR
 | 3 | Guardrails & Classification | Regex, PII Detector, Query Classifier | Phase 1 | 2–3 hours |
 | 4 | RAG Pipeline & LLM Integration | Groq (`openai/gpt-oss-120b`), ChromaDB / Pinecone | Phase 2, 3 | 4–5 hours |
 | 5 | API & Multi-Thread Chat | FastAPI, UUID Session Manager | Phase 4 | 3–4 hours |
-| 6 | UI, Testing & Documentation | Streamlit, Pytest | Phase 5 | 3–4 hours |
-| | **Total** | | | **17–24 hours** |
+| 6 | UI, Testing & Documentation | Streamlit, Stitch, Pytest | Phase 5 | 3–4 hours |
+| 7 | Automated Daily Ingestion Scheduler | GitHub Actions, Cron (`10:00 AM IST`), ChromaDB | Phase 2, 6 | 2–3 hours |
+| | **Total** | | | **19–27 hours** |
 
 ---
 
@@ -762,6 +765,151 @@ Sections:
 - [x] `pytest tests/ -v` — all tests pass (35/35 passed)
 - [x] `README.md` has complete setup instructions that a new developer can follow
 - [x] End-to-end: fresh setup following only README → working chatbot
+
+---
+
+## Phase 7: Automated Daily Ingestion Scheduler (GitHub Actions)
+
+> **Goal:** Automate daily data ingestion at **10:00 AM IST (04:30 UTC)** using a GitHub Actions scheduled workflow to ensure the vector knowledge base always reflects the latest statutory fund factsheets, expense ratios, and equity metrics without manual intervention.
+
+### Dependencies
+- Phase 2 complete (`scripts/ingest.py`, `src/ingestion/`)
+- Phase 6 complete (Test suite, regression verification)
+- GitHub repository origin configured (`https://github.com/diptihello/FintechAssistant_NL`)
+
+### Schedule & Trigger Specification
+- **Cron Schedule:** `30 4 * * *`
+  - `30`: Minute 30
+  - `4`: Hour 04 (04:30 UTC = **10:00 AM IST**, UTC + 5:30)
+  - `*`: Every day of the month
+  - `*`: Every month
+  - `*`: Every day of the week
+- **Manual Trigger:** `workflow_dispatch` enabled to support immediate manual execution from GitHub Actions UI or GitHub CLI.
+
+```mermaid
+flowchart TD
+    CRON["Cron Schedule: 30 4 * * *\n(Daily 10:00 AM IST)"] --> GHA["GitHub Actions Runner\n(ubuntu-latest)"]
+    MANUAL["Manual Trigger\n(workflow_dispatch)"] --> GHA
+    
+    subgraph S1["1. Environment & Setup"]
+        GHA --> CHECKOUT["actions/checkout@v4"]
+        CHECKOUT --> PYTHON["actions/setup-python@v5\n(Python 3.12)"]
+        PYTHON --> CACHE["Cache pip & HuggingFace Models"]
+        CACHE --> INSTALL["pip install -r requirements.txt"]
+    end
+
+    subgraph S2["2. Full Ingestion Lifecycle"]
+        INSTALL --> SCRAPE["Scrape 5 Groww URLs\n(4 HDFC MF + IRFC Stock)"]
+        SCRAPE --> NORMALIZE["Data Normalization & Cleaning\n(Save data/raw/*.json)"]
+        NORMALIZE --> CHUNK["Atomic Field-Aware Chunking\n(Save data/processed/chunks.json)"]
+        CHUNK --> EMBED["SentenceTransformer MiniLM-L6-v2\nDense Embedding Generation"]
+        EMBED --> STORE["ChromaDB Persistence\nUpsert with deterministic MD5 IDs"]
+    end
+
+    subgraph S3["3. Verification & Artifacts"]
+        STORE --> TEST["Automated Regression Smoke Test\n(pytest tests/test_retriever.py)"]
+        TEST --> ARTIFACT["actions/upload-artifact@v4\n(Archive vectorstore/ & data/)"]
+        TEST --> COMMIT["Automated Git Commit & Push\n(Commit data/metadata.json if changed)"]
+    end
+```
+
+### Tasks
+
+| # | Task | File(s) | Details |
+|---|------|---------|---------|
+| 7.1 | Workflow Definition | `.github/workflows/daily_ingestion.yml` | Create GitHub Actions workflow file with cron schedule `30 4 * * *` and `workflow_dispatch`. |
+| 7.2 | Dependency & Model Caching | `.github/workflows/daily_ingestion.yml` | Configure GitHub Actions caching for `~/.cache/pip` and `~/.cache/huggingface` to minimize execution time. |
+| 7.3 | Ingestion Pipeline Automation | `scripts/ingest.py` | Execute `python scripts/ingest.py` on the runner: scrape Groww, normalize JSON, produce field-aware atomic chunks, generate MiniLM embeddings, and upsert ChromaDB. |
+| 7.4 | Post-Ingestion Regression Tests | `tests/test_retriever.py` | Automatically run `pytest tests/test_retriever.py tests/test_classifier.py` after ingestion to guarantee collection integrity before deploying data updates. |
+| 7.5 | Vectorstore & Data Artifact Archival | `.github/workflows/daily_ingestion.yml` | Upload `vectorstore/` and `data/` directories as job artifacts with 14-day retention using `actions/upload-artifact@v4`. |
+| 7.6 | Automated Git Data Sync | `.github/workflows/daily_ingestion.yml` | Auto-commit updated `data/raw/` and `data/metadata.json` back to the repository using GitHub Actions Bot if changes are detected. |
+
+#### 7.1 Workflow Detail (`.github/workflows/daily_ingestion.yml`)
+
+```yaml
+name: Daily Data Ingestion & ChromaDB Update
+
+on:
+  schedule:
+    # Daily at 10:00 AM IST (04:30 AM UTC)
+    - cron: '30 4 * * *'
+  workflow_dispatch: # Enable manual run anytime
+
+permissions:
+  contents: write
+
+jobs:
+  daily-ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Cache HuggingFace Embedding Models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-hf-
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run End-to-End Ingestion Pipeline
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/ingest.py
+
+      - name: Run Post-Ingestion Regression Tests
+        env:
+          PYTHONPATH: .
+        run: |
+          pytest tests/test_retriever.py tests/test_classifier.py tests/test_pii_detector.py -v
+
+      - name: Upload Vectorstore Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-chroma-vectorstore
+          path: |
+            vectorstore/
+            data/processed/
+            data/metadata.json
+          retention-days: 14
+
+      - name: Commit & Push Updated Data (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/metadata.json data/raw/
+          if git diff --staged --quiet; then
+            echo "No data changes detected. Skipping commit."
+          else
+            git commit -m "chore(data): automated daily factsheet update [skip ci]"
+            git push origin main
+          fi
+```
+
+### Acceptance Criteria
+
+- [x] GitHub Actions workflow file `.github/workflows/daily_ingestion.yml` created and validated.
+- [x] Cron schedule configured to `30 4 * * *` matching **10:00 AM IST** daily.
+- [x] `workflow_dispatch` trigger enabled for immediate manual trigger.
+- [x] Full ingestion lifecycle automated: scraping, normalization, chunking, embedding, and ChromaDB persistence.
+- [x] Post-ingestion regression smoke tests execute automatically after data updates.
+- [x] Vector store and metadata archived as GitHub Actions build artifacts with 14-day retention.
+- [x] Automated git bot commit syncs data changes back to the repository.
 
 ---
 
