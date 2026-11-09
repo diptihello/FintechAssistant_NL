@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline": "#6c7a73", "on-background": "#171a2c", "on-tertiary-container": "#542a00", "secondary-container": "#dfe2ec", "on-primary-fixed": "#002116", "on-tertiary": "#ffffff", "tertiary": "#904d00", "secondary": "#5b5e67", "inverse-primary": "#50ddad", "surface-container-highest": "#dfe1fa", "surface-tint": "#006c4f", "surface-container-high": "#e5e6ff", "on-tertiary-fixed": "#2f1500", "on-primary-container": "#003d2c", "tertiary-fixed-dim": "#ffb77d", "error": "#ba1a1a", "surface-container": "#ececff", "tertiary-fixed": "#ffdcc3", "primary": "#006c4f", "outline-variant": "#bbcac1", "secondary-fixed": "#dfe2ec", "on-surface": "#171a2c", "on-surface-variant": "#3c4a43", "on-secondary-fixed-variant": "#43474f", "surface-variant": "#dfe1fa", "background": "#fbf8ff", "surface-dim": "#d7d8f1", "primary-container": "#00b386", "secondary-fixed-dim": "#c3c6d0", "surface": "#fbf8ff", "on-primary": "#ffffff", "surface-bright": "#fbf8ff", "primary-fixed-dim": "#50ddad", "on-primary-fixed-variant": "#00513b", "on-tertiary-fixed-variant": "#6e3900", "on-secondary": "#ffffff", "primary-fixed": "#71fac8", "inverse-surface": "#2c2f42", "on-error": "#ffffff", "error-container": "#ffdad6", "tertiary-container": "#ea841b", "on-secondary-fixed": "#181c23", "surface-container-low": "#f3f2ff", "on-error-container": "#93000a", "on-secondary-container": "#61646d", "inverse-on-surface": "#f0efff", "surface-container-lowest": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.25rem", "gutter": "1.25rem", "space-xs": "0.25rem", "space-md": "0.75rem", "space-sm": "0.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "margin-desktop": "2.5rem", "gutter-desktop": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "headline-lg": [ "Plus Jakarta Sans" ], "headline-sm": [ "Plus Jakarta Sans" ], "body-md": [ "Inter" ], "label-md": [ "Inter" ], "headline-xl": [ "Plus Jakarta Sans" ], "data-metric": [ "Plus Jakarta Sans" ], "body-sm": [ "Inter" ], "body-lg": [ "Inter" ], "headline-xl-mobile": [ "Plus Jakarta Sans" ], "label-sm": [ "Inter" ], "headline-md": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" } ], "headline-sm": [ "16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "body-md": [ "14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" } ], "headline-xl": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" } ], "data-metric": [ "22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "body-sm": [ "13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" } ], "body-lg": [ "16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" } ], "headline-md": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface text-on-surface font-body-md antialiased"><aside class="fixed left-0 top-0 h-full w-[280px] bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col h-full"><div class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest"><div class="flex items-center gap-space-sm"><img alt="Groww Facts Q&amp;A Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrBYdeLsXFsXBo7eUQfSbQ_m5kj1XeI5d_Tosgx67XYyi--BoYl1jFIhJ_WY10Oo5XrTg_gpl7Qhqr6OJPv2ydyTdIgrc0sd86rVd4ZmQJiVlbV87fQZP7C3MlzR8kT5dBF_RGQ2QKax-t-b6-GQY3LYSiK9vCeTObjiJo7WeDxt8khzrwTSe2zBJd1TV1P4LQ4Nh8E2upenETl2qkL5e4Qc42fWvRC9MvtZkhzTBc0j"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Groww Facts Q&amp;A</span></div></div><div class="px-space-md py-space-sm"><button class="w-full flex items-center justify-center gap-space-sm bg-primary-container text-on-primary py-space-sm px-space-md rounded-lg font-label-md text-label-md hover:bg-primary transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.04)]"><span class="material-symbols-outlined text-[18px]">add</span><span>New Chat Thread</span></button></div><div class="px-space-md py-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm"><span class="uppercase tracking-wider">Recent Fact Queries</span><span class="material-symbols-outlined text-[16px]">history</span></div><nav class="flex-1 overflow-y-auto px-space-md space-y-space-xs" data-active-classes="bg-surface-container text-on-surface font-bold rounded-lg"><a aria-current="page" class="group flex flex-col gap-1 p-space-sm transition-all bg-surface-container text-on-surface font-bold rounded-lg" data-path="chat-assistant" href="#"><div class="flex items-center justify-between"><span class="font-label-md text-label-md truncate">HDFC Small Cap Expense</span><span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-on-surface-variant">4</span></div><span class="font-label-sm text-label-sm text-secondary">10m ago · AMFI Factsheet</span></a><a class="group flex flex-col gap-1 p-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="stock-facts" href="#"><div class="flex items-center justify-between"><span class="font-label-md text-label-md truncate">IRFC Market Cap</span><span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-on-surface-variant">2</span></div><span class="font-label-sm text-label-sm text-secondary">1h ago · NSE Filings</span></a><a class="group flex flex-col gap-1 p-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="fund-comparison" href="#"><div class="flex items-center justify-between"><span class="font-label-md text-label-md truncate">Axis Bluechip Exit Load</span><span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-on-surface-variant">7</span></div><span class="font-label-sm text-label-sm text-secondary">3h ago · Scheme SID</span></a><a class="group flex flex-col gap-1 p-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-all" data-path="knowledge-repository" href="#"><div class="flex items-center justify-between"><span class="font-label-md text-label-md truncate">Parag Parikh Flexi Cap AUM</span><span class="px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-on-surface-variant">3</span></div><span class="font-label-sm text-label-sm text-secondary">Yesterday · Portfolios</span></a></nav><div class="p-space-md bg-surface-container-low mt-auto flex flex-col gap-space-xs"><div class="flex items-center gap-space-xs"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-label-sm text-label-sm text-on-surface font-semibold">ChromaDB Vector Store</span></div><p class="font-label-sm text-label-sm text-on-surface-variant">57 Chunks Indexed · Clean Embeddings</p><div class="flex items-center justify-between pt-space-xs"><span class="font-label-sm text-label-sm text-secondary">v1.0.0 (Groq Powered)</span><span class="font-label-sm text-label-sm text-primary font-medium flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">verified</span>SEBI Compliant</span></div></div></div></aside><div class="pl-[280px]"><div class="fixed top-0 left-[280px] right-0 z-40 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-tertiary-fixed text-on-tertiary-fixed px-space-lg py-1.5 flex items-center justify-between"><div class="flex items-center gap-space-xs text-left"><span class="material-symbols-outlined text-[18px] text-tertiary shrink-0">warning</span><p class="font-label-sm text-label-sm"><strong class="font-semibold">Compliance Notice:</strong> Facts-only assistant. No investment advice, opinions, or performance predictions. Every answer is strictly grounded in verified public filings.</p></div><a class="font-label-sm text-label-sm underline text-tertiary hover:text-on-tertiary-fixed font-semibold shrink-0 ml-space-md" data-path="statutory-compliance" href="#">SEBI / AMFI Guidelines</a></div><header class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest"><nav class="flex items-center gap-space-sm" data-active-classes="bg-surface-container text-on-surface font-semibold rounded-lg"><a aria-current="page" class="px-space-sm py-1.5 transition-colors bg-surface-container text-on-surface font-semibold rounded-lg" data-path="chat-assistant" href="#">Assistant</a><a class="text-on-surface-variant hover:text-on-surface px-space-sm py-1.5 transition-colors font-label-md text-label-md" data-path="stock-facts" href="#">Stocks &amp; Tickers</a><a class="text-on-surface-variant hover:text-on-surface px-space-sm py-1.5 transition-colors font-label-md text-label-md" data-path="fund-comparison" href="#">Mutual Funds</a><a class="text-on-surface-variant hover:text-on-surface px-space-sm py-1.5 transition-colors font-label-md text-label-md" data-path="knowledge-repository" href="#">Vector Knowledge Base</a><a class="text-on-surface-variant hover:text-on-surface px-space-sm py-1.5 transition-colors font-label-md text-label-md" data-path="statutory-compliance" href="#">Audit &amp; Disclosures</a></nav><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px] text-primary">bolt</span><span>Groq LLaMA 3.3 70B</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header></div><main class="relative pt-24 bg-surface min-h-screen px-space-lg pb-space-xl"><div class="flex flex-col w-full">
+<div class="max-w-[1080px] w-full mx-auto flex flex-col space-y-space-xl">
+<!-- Contextual Fact Verification Banner / Guide -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="absolute -right-12 -top-12 w-56 h-56 rounded-full bg-primary-container/10 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="space-y-space-xs max-w-2xl">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm tracking-wide uppercase font-semibold">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+            Public Filings Database
+          </div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Verified Facts for HDFC Mutual Funds &amp; IRFC Stock</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Ask any verifiable query on expense ratios, exit loads, minimum SIPs, benchmarks, or stock fundamentals.</p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0 self-start md:self-auto bg-surface-container-low px-space-md py-space-sm rounded-lg">
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Model Temperature</span>
+<span class="font-data-metric text-[14px] text-on-surface font-mono">0.0 (Strict Zero Hallucination)</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px]">lock_reset</span>
+</div>
+</div>
+<!-- Quick Prompt Chip Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm mt-space-lg pt-space-md">
+<button class="group text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-space-sm shadow-sm hover:shadow" onclick="setQuery('What is the expense ratio of HDFC Small Cap Fund Direct Growth?')">
+<span class="p-2 rounded-lg bg-surface-container-lowest text-primary shadow-xs group-hover:scale-105 transition-transform material-symbols-outlined text-[20px]">equalizer</span>
+<div class="flex-1 min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-0.5">Mutual Fund Facts</span>
+<p class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors line-clamp-2">What is the expense ratio of HDFC Small Cap Fund?</p>
+</div>
+</button>
+<button class="group text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-space-sm shadow-sm hover:shadow" onclick="setQuery('What is the exit load for HDFC Large Cap Fund?')">
+<span class="p-2 rounded-lg bg-surface-container-lowest text-tertiary-container text-white shadow-xs group-hover:scale-105 transition-transform material-symbols-outlined text-[20px]">timer</span>
+<div class="flex-1 min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-0.5">Redemption Rules</span>
+<p class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors line-clamp-2">What is the exit load for HDFC Large Cap Fund?</p>
+</div>
+</button>
+<button class="group text-left p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-space-sm shadow-sm hover:shadow" onclick="setQuery('What is the market cap &amp; P/E ratio of IRFC?')">
+<span class="p-2 rounded-lg bg-surface-container-lowest text-primary-container text-white shadow-xs group-hover:scale-105 transition-transform material-symbols-outlined text-[20px]">train</span>
+<div class="flex-1 min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant block mb-0.5">Equities Valuation</span>
+<p class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors line-clamp-2">What is the market cap &amp; P/E ratio of IRFC?</p>
+</div>
+</button>
+</div>
+</div>
+<!-- Active Stream / Conversation History -->
+<div class="flex flex-col space-y-space-xl pb-16" id="chat-stream">
+<!-- Sequence 1: Factual Verified Interaction -->
+<div class="flex flex-col space-y-space-md">
+<!-- User Query Bubble -->
+<div class="flex justify-end items-end gap-space-xs max-w-2xl ml-auto">
+<div class="bg-secondary-container text-on-surface rounded-2xl rounded-tr-xs px-space-lg py-space-md shadow-sm">
+<p class="font-body-md text-body-md font-medium text-on-surface">What is the expense ratio of HDFC Small Cap Fund Direct Growth?</p>
+<div class="flex justify-end items-center gap-1 mt-1 text-on-surface-variant font-label-sm text-label-sm opacity-70">
+<span>10:42 AM</span>
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+</div>
+</div>
+</div>
+<!-- Assistant Verified Bubble -->
+<div class="flex items-start gap-space-md max-w-3xl mr-auto">
+<div class="w-9 h-9 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-1">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl rounded-tl-xs p-space-lg shadow-sm flex flex-col space-y-space-md w-full">
+<!-- Header Badge & Similarity Metric -->
+<div class="flex flex-wrap items-center justify-between gap-space-xs pb-space-sm">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Verified Source Answer</span>
+</div>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span>Vector Match 98.4%</span>
+<span class="text-secondary opacity-60">· 14ms Groq RTT</span>
+</div>
+</div>
+<!-- Factual Response Body -->
+<div class="space-y-space-sm">
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+                The expense ratio of <strong class="font-semibold text-on-surface">HDFC Small Cap Fund Direct Plan - Growth</strong> is <span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold font-mono">0.68%</span> (inclusive of GST) as per the latest monthly factsheet disclosure by HDFC Asset Management Company.
+              </p>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-sm pt-space-xs">
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Category Average</span>
+<span class="font-data-metric text-[18px] text-on-surface">0.74%</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Regular Plan TER</span>
+<span class="font-data-metric text-[18px] text-on-surface">1.62%</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col col-span-2 sm:col-span-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Turnover Ratio</span>
+<span class="font-data-metric text-[18px] text-on-surface">23.10%</span>
+</div>
+</div>
+</div>
+<!-- Interactive Citation Link Pill -->
+<div class="pt-space-xs">
+<button class="group flex items-center justify-between w-full p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container transition-colors text-left" onclick="toggleCitationDrawer()">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">link</span>
+<div class="truncate">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Primary Verified Citation</span>
+<span class="font-label-md text-label-md text-primary font-mono truncate block group-hover:underline">groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface text-[18px] shrink-0 ml-2">open_in_new</span>
+</button>
+</div>
+<!-- Verification Metadata Footer -->
+<div class="pt-space-sm flex flex-wrap items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary">gavel</span>
+<span>Last updated: 2026-11-08 • Verified against SEBI statutory filing</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="hover:text-primary transition-colors flex items-center gap-1" title="Helpful">
+<span class="material-symbols-outlined text-[16px]">thumb_up</span>
+<span>Accurate</span>
+</button>
+<button class="hover:text-on-surface transition-colors flex items-center gap-1" title="Audit Trail">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span>Proof ID #8841</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sequence 2: Advisory Query Refusal (SEBI Regulatory Guardrail) -->
+<div class="flex flex-col space-y-space-md">
+<!-- User Query Bubble -->
+<div class="flex justify-end items-end gap-space-xs max-w-2xl ml-auto">
+<div class="bg-secondary-container text-on-surface rounded-2xl rounded-tr-xs px-space-lg py-space-md shadow-sm">
+<p class="font-body-md text-body-md font-medium text-on-surface">Should I buy IRFC stock right now for 50% returns in 3 months?</p>
+<div class="flex justify-end items-center gap-1 mt-1 text-on-surface-variant font-label-sm text-label-sm opacity-70">
+<span>10:44 AM</span>
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+</div>
+</div>
+</div>
+<!-- Assistant Compliance Refusal Card -->
+<div class="flex items-start gap-space-md max-w-3xl mr-auto">
+<div class="w-9 h-9 rounded-xl bg-tertiary-container text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+<div class="bg-tertiary-fixed/30 rounded-2xl rounded-tl-xs p-space-lg shadow-sm flex flex-col space-y-space-md w-full">
+<div class="flex items-center gap-space-sm text-tertiary font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+<span>Advisory Query Refused (Compliance Policy)</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+              Under <strong class="font-semibold text-on-surface">SEBI (Investment Advisers) Regulations, 2013</strong>, this assistant provides strictly factual, backward-looking financial data. We cannot provide buy/sell recommendations, forward return forecasts, or speculative price targets.
+            </p>
+<div class="p-space-md rounded-xl bg-surface-container-lowest/80 flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px]">menu_book</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Statutory Investor Awareness</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Review risk appetite &amp; unbiased asset allocation frameworks.</span>
+</div>
+</div>
+<a class="inline-flex items-center justify-center gap-1.5 px-space-md py-space-xs rounded-full bg-tertiary text-on-tertiary font-label-md text-label-md hover:bg-on-tertiary-container transition-colors shrink-0" href="https://www.amfiindia.com/investor-corner" rel="noopener noreferrer" target="_blank">
+<span>AMFI Knowledge Center</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="flex items-center justify-between text-tertiary font-label-sm text-label-sm pt-space-xs">
+<span>Rule Ref: SEBI/HO/IMD/DF2/CIR/P/2020/190</span>
+<span class="font-mono">Auto-flagged: Prospective ROI Claim</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sequence 3: In-flight Vector Retrieval & Inference State -->
+<div class="flex items-start gap-space-md max-w-2xl mr-auto transition-opacity duration-300" id="inflight-loader">
+<div class="w-9 h-9 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-sm mt-1 animate-pulse">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl rounded-tl-xs p-space-md shadow-sm w-full space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+</span>
+<span class="font-label-md text-label-md text-on-surface font-medium">Scanning ChromaDB collection (hdfc_irfc_q4)...</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">Top-K=4</span>
+</div>
+<!-- Pulsing Shimmer Placeholder Bars -->
+<div class="space-y-2 pt-1">
+<div class="h-3 w-4/5 rounded bg-surface-container animate-pulse"></div>
+<div class="h-3 w-3/5 rounded bg-surface-container animate-pulse"></div>
+</div>
+<div class="flex items-center gap-1 pt-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">neurology</span>
+<span>Synthesizing deterministic facts via Groq LLaMA 3.3 70B</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Citation Detail Flyout Drawer (Modal / Floating Panel) -->
+<div class="fixed inset-y-0 right-0 w-full max-w-md bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-space-lg flex flex-col justify-between overflow-y-auto" id="citation-panel">
+<div class="space-y-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-xs text-primary font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined">library_books</span>
+<span>Factual Evidence Trace</span>
+</div>
+<button class="p-1 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="toggleCitationDrawer()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-space-md rounded-xl space-y-space-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Document Schema</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">HDFC Mutual Fund Monthly Portfolio Disclosure</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">CIN: U65991MH1999PLC123027 • AMC SEBI Reg: MF/044/00/6</p>
+</div>
+<div class="space-y-space-sm">
+<span class="font-label-md text-label-md text-on-surface">Extracted Raw Vector Chunk</span>
+<div class="p-space-md rounded-xl bg-surface-container font-mono text-body-sm text-on-surface-variant leading-relaxed">
+            "...HDFC Small Cap Fund Direct Plan Total Expense Ratio (TER) stands at 0.68% as on October 31, 2026. Management Fee: 0.42%, GST: 0.08%, Other Operating Expenses: 0.18%. Benchmark: S&amp;P BSE 250 SmallCap TRI..."
+          </div>
+</div>
+<div class="space-y-space-xs">
+<span class="font-label-md text-label-md text-on-surface">Cryptographic Verification</span>
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm font-mono">
+<span>SHA-256 Hash:</span>
+<span class="text-primary truncate ml-2">e8b3f12a...7c99</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg space-y-space-sm">
+<a class="w-full flex items-center justify-center gap-space-xs py-space-sm bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:bg-surface-tint transition-colors" href="https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth" rel="noopener noreferrer" target="_blank">
+<span>Inspect Source on Groww.in</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+<button class="w-full py-space-sm text-on-surface-variant hover:text-on-surface font-label-md text-label-md" onclick="toggleCitationDrawer()">
+          Dismiss Drawer
+        </button>
+</div>
+</div>
+<!-- Floating / Sticky Intelligent Search Bar -->
+<div class="sticky bottom-4 z-30 w-full pt-space-xs">
+<div class="bg-surface-container-lowest rounded-2xl shadow-xl p-space-sm transition-all focus-within:ring-2 focus-within:ring-primary-container">
+<div class="flex items-center gap-space-sm px-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">search</span>
+<input class="w-full bg-transparent text-on-surface placeholder:text-on-surface-variant font-body-md text-body-md focus:outline-none py-2" id="chat-input" maxlength="500" oninput="handleInput(event)" onkeydown="handleKey(event)" placeholder="Ask a factual question (e.g. exit load, minimum SIP, benchmark)..." type="text"/>
+<button class="hidden text-on-surface-variant hover:text-on-surface p-1 rounded-full transition-colors" id="clear-btn" onclick="clearInput()" title="Clear input">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+<div class="flex items-center gap-space-sm shrink-0 pl-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono" id="char-counter">0/500</span>
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm" disabled="" id="send-btn" onclick="submitQuery()">
+<span class="material-symbols-outlined text-[20px]">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Regulatory & Zero PII Guardrail Notice -->
+<div class="flex items-center justify-center gap-1.5 mt-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+<span>Zero PII Retention. Do not share PAN, Aadhaar, phone number, or OTP credentials.</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function setQuery(text) {
+    const input = document.getElementById('chat-input');
+    if (input) {
+      input.value = text;
+      handleInput({ target: input });
+      input.focus();
+    }
+  }
+
+  function handleInput(e) {
+    const len = e.target.value.length;
+    const counter = document.getElementById('char-counter');
+    const sendBtn = document.getElementById('send-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    if (counter) counter.textContent = `${len}/500`;
+    if (sendBtn) sendBtn.disabled = len === 0;
+    if (clearBtn) {
+      if (len > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+    }
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submitQuery();
+    }
+  }
+
+  function clearInput() {
+    const input = document.getElementById('chat-input');
+    if (input) {
+      input.value = '';
+      handleInput({ target: input });
+      input.focus();
+    }
+  }
+
+  function toggleCitationDrawer() {
+    const panel = document.getElementById('citation-panel');
+    if (panel) {
+      panel.classList.toggle('translate-x-full');
+    }
+  }
+
+  function submitQuery() {
+    const input = document.getElementById('chat-input');
+    if (!input || !input.value.trim()) return;
+
+    const userText = input.value.trim();
+    const stream = document.getElementById('chat-stream');
+    const inflight = document.getElementById('inflight-loader');
+
+    // Create user bubble
+    const userWrap = document.createElement('div');
+    userWrap.className = 'flex justify-end items-end gap-space-xs max-w-2xl ml-auto mt-space-md';
+    userWrap.innerHTML = `
+      <div class="bg-secondary-container text-on-surface rounded-2xl rounded-tr-xs px-space-lg py-space-md shadow-sm">
+        <p class="font-body-md text-body-md font-medium text-on-surface">${escapeHtml(userText)}</p>
+        <div class="flex justify-end items-center gap-1 mt-1 text-on-surface-variant font-label-sm text-label-sm opacity-70">
+          <span>Just now</span>
+          <span class="material-symbols-outlined text-[14px]">done</span>
+        </div>
+      </div>
+    `;
+
+    if (stream && inflight) {
+      stream.insertBefore(userWrap, inflight);
+      inflight.classList.remove('hidden');
+      
+      // Auto-clear input
+      clearInput();
+
+      // Scroll to view
+      userWrap.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+      // Simulate Groq RAG Response
+      setTimeout(() => {
+        const isAdvisory = /(should i|target|buy|sell|predict|profit|gain)/i.test(userText);
+        const replyWrap = document.createElement('div');
+        replyWrap.className = 'flex items-start gap-space-md max-w-3xl mr-auto mt-space-md';
+
+        if (isAdvisory) {
+          replyWrap.innerHTML = `
+            <div class="w-9 h-9 rounded-xl bg-tertiary-container text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+              <span class="material-symbols-outlined text-[20px]">policy</span>
+            </div>
+            <div class="bg-tertiary-fixed/30 rounded-2xl rounded-tl-xs p-space-lg shadow-sm flex flex-col space-y-space-md w-full">
+              <div class="flex items-center gap-space-sm text-tertiary font-headline-sm text-headline-sm">
+                <span class="material-symbols-outlined text-[22px]">warning</span>
+                <span>Advisory Query Refused (Compliance Policy)</span>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                Under SEBI guidelines, this system cannot generate price forecasts or trading advice. Please refer to certified investment advisers for financial recommendations.
+              </p>
+              <div class="flex items-center justify-between text-tertiary font-label-sm text-label-sm pt-space-xs">
+                <span>SEBI Circular Ref #2020/190</span>
+                <span class="font-mono">Grounded Policy Check</span>
+              </div>
+            </div>
+          `;
+        } else {
+          replyWrap.innerHTML = `
+            <div class="w-9 h-9 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-1">
+              <span class="material-symbols-outlined text-[20px]">shield</span>
+            </div>
+            <div class="bg-surface-container-lowest rounded-2xl rounded-tl-xs p-space-lg shadow-sm flex flex-col space-y-space-md w-full">
+              <div class="flex flex-wrap items-center justify-between gap-space-xs pb-space-sm">
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-md text-label-md">
+                  <span class="material-symbols-outlined text-[16px]">verified</span>
+                  <span>Verified Source Answer</span>
+                </div>
+                <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-mono">
+                  <span>Vector Match 97.8%</span>
+                </div>
+              </div>
+              <p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+                Data point retrieved from registered public filings: IRFC market capitalization stands at ₹2,14,350 Cr with a trailing P/E of 32.4x as per latest exchange filings.
+              </p>
+              <div class="pt-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+                <span>Verified against NSE/BSE filings</span>
+                <span class="font-mono">Timestamp: Just now</span>
+              </div>
+            </div>
+          `;
+        }
+
+        stream.insertBefore(replyWrap, inflight);
+        replyWrap.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 950);
+    }
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+</script></main></div></body></html>
