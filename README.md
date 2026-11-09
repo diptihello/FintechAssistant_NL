@@ -201,6 +201,7 @@ All detailed project documents reside in the [`docs/`](file:///d:/Dipti/NextLeap
 | [docs/data_research.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/data_research.md) | Empirical data research, chunking analysis, and embedding benchmarks |
 | [docs/edge-case.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/edge-case.md) | 8 categories of edge cases and verification test matrix |
 | [docs/eval.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/eval.md) | Quantitative evaluation metrics (Retrieval Recall, Faithfulness, Latency) |
+| [docs/issues.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/issues.md) | Manual verification log, bug fixes, edge cases, and root cause analyses |
 | [docs/stitch_ui_prompt.md](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/docs/stitch_ui_prompt.md) | Design specifications and prompt used for the Stitch UI generation |
 
 ---
