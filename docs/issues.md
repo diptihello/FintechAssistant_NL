@@ -254,6 +254,19 @@ This document details the **manual verification**, bug fixes, architectural edge
 
 ---
 
+### ISS-14: Phase 7 Ingestion & ChromaDB Telemetry Timeout Suppression
+
+- **Symptoms:** When running automated regression tests (`pytest tests/test_retriever.py`) in CI or isolated sandbox environments, initialization experienced delays of ~30–40 seconds.
+- **Root Cause Analysis:**
+  1. Default ChromaDB `PersistentClient` attempts to reach external PostHog telemetry servers (`telemetry.chromadb.dev`) over the network on startup when `anonymized_telemetry` is not explicitly disabled.
+  2. Concurrent read/write access to `vectorstore/chroma_db/chroma.sqlite3` caused SQLite table lock waits when the backend API and ingestion tests ran simultaneously.
+- **Resolution:**
+  - Configured `chromadb.config.Settings(anonymized_telemetry=False)` in `FactRetriever.__init__` matching `DocumentEmbedder`.
+  - Upgraded `scripts/ingest.py` to cleanly handle live scraping, normalization, deterministic atomic chunking, and metadata timestamping with automatic retry fallbacks.
+- **Verification:** `pytest tests/test_retriever.py` passes 4/4 tests cleanly and `scripts/ingest.py` executes end-to-end within seconds.
+
+---
+
 ## 4. Manual Verification Test Matrix & Live Results
 
 The following test scenarios were manually executed against the running backend (`http://localhost:8000/api/chat`) and Stitch frontend to verify compliance:

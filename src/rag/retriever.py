@@ -5,6 +5,7 @@ Retrieves the most semantically relevant factual chunks for a query.
 
 from dataclasses import dataclass
 import logging
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from src.config import (
@@ -39,6 +40,7 @@ class FactRetriever:
         collection_name: str = CHROMA_COLLECTION_NAME,
     ):
         import chromadb
+        from chromadb.config import Settings
         from sentence_transformers import SentenceTransformer
 
         try:
@@ -46,7 +48,10 @@ class FactRetriever:
         except Exception:
             self.model = SentenceTransformer(model_name)
 
-        self.client = chromadb.PersistentClient(path=persist_dir)
+        self.client = chromadb.PersistentClient(
+            path=str(Path(persist_dir).resolve()),
+            settings=Settings(anonymized_telemetry=False)
+        )
         self.collection = self.client.get_collection(name=collection_name)
 
     def retrieve(self, query: str, top_k: int = RETRIEVER_TOP_K) -> List[RetrievedChunk]:
