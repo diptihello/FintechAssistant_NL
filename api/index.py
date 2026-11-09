@@ -33,3 +33,4 @@ if not tmp_chroma.exists() or not any(tmp_chroma.iterdir()):
         logging.getLogger(__name__).warning("Vercel cold-start ingestion: %s", e)
 
 from src.api.main import app
+

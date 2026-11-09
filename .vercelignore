@@ -14,3 +14,4 @@ docs
 stitch_fintech_faq_assistant_ui
 vectorstore/chroma_db
 *.md
+
