@@ -20,7 +20,18 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.api.main import app, serve_index
 
 # Allow root UI to be served when Vercel routes /api/index or /api to this function
-@app.get("/api/index")
-@app.get("/api")
+@app.get("/api/index", include_in_schema=False)
+@app.get("/api", include_in_schema=False)
 def root_from_api():
     return serve_index()
+
+# Allow Swagger UI when accessed via /api/docs
+@app.get("/api/docs", include_in_schema=False)
+def api_docs():
+    from fastapi.openapi.docs import get_swagger_ui_html
+    return get_swagger_ui_html(openapi_url="/api/openapi.json", title=app.title + " - Swagger UI")
+
+@app.get("/api/openapi.json", include_in_schema=False)
+def api_openapi():
+    from fastapi.responses import JSONResponse
+    return JSONResponse(app.openapi())
