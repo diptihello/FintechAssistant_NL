@@ -24,10 +24,16 @@ load_dotenv()
 
 # ── Project paths ──────────────────────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
-RAW_DATA_DIR = DATA_DIR / "raw"
-PROCESSED_DATA_DIR = DATA_DIR / "processed"
-METADATA_FILE = DATA_DIR / "metadata.json"
+if os.getenv("VERCEL") == "1":
+    DATA_DIR = Path("/tmp/data")
+    RAW_DATA_DIR = Path("/tmp/raw")
+    PROCESSED_DATA_DIR = Path("/tmp/processed")
+    METADATA_FILE = Path("/tmp/metadata.json")
+else:
+    DATA_DIR = PROJECT_ROOT / "data"
+    RAW_DATA_DIR = DATA_DIR / "raw"
+    PROCESSED_DATA_DIR = DATA_DIR / "processed"
+    METADATA_FILE = DATA_DIR / "metadata.json"
 VECTORSTORE_DIR = PROJECT_ROOT / "vectorstore" / "chroma_db"
 
 # ── LLM (Groq) ─────────────────────────────────────────────────────────────────

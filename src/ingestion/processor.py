@@ -19,7 +19,10 @@ class DocumentProcessor:
 
     def __init__(self, processed_dir: Optional[Path] = None):
         self.processed_dir = processed_dir or PROCESSED_DATA_DIR
-        self.processed_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            self.processed_dir.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass
 
     @staticmethod
     def generate_chunk_id(url: str, field_name: str) -> str:
@@ -143,11 +146,13 @@ class DocumentProcessor:
                 chunks = self.process_scheme(item)
             all_chunks.extend(chunks)
 
-        out_file = self.processed_dir / "chunks.json"
-        with open(out_file, "w", encoding="utf-8") as f:
-            json.dump(all_chunks, f, indent=2, ensure_ascii=False)
-
-        logger.info("Processed %d total chunks saved to %s", len(all_chunks), out_file)
+        try:
+            out_file = self.processed_dir / "chunks.json"
+            with open(out_file, "w", encoding="utf-8") as f:
+                json.dump(all_chunks, f, indent=2, ensure_ascii=False)
+            logger.info("Processed %d total chunks saved to %s", len(all_chunks), out_file)
+        except OSError as e:
+            logger.warning("Read-only filesystem detected (%s). Chunks processed in-memory only.", e)
         return all_chunks
 
 
