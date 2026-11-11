@@ -1,5 +1,113 @@
 [
   {
+    "chunk_id": "5f49a0f9a8110d20cb0fb90a5886e6b9",
+    "text": "The expense ratio of HDFC Mid Cap Fund - Direct Growth is 0.74%.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "expense_ratio",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "efc70154e3ed9db1197f2f71e58273bb",
+    "text": "The exit load for HDFC Mid Cap Fund - Direct Growth is 1.0% if redeemed within 1 year; Nil thereafter.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "exit_load",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "1cb46350fcd33276ffac77453197b8b9",
+    "text": "The minimum SIP (Systematic Investment Plan) amount for HDFC Mid Cap Fund - Direct Growth is ₹100.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "min_sip",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "a8893dd014e92c7ffd7cd9a48475733e",
+    "text": "The minimum lump sum investment amount for HDFC Mid Cap Fund - Direct Growth is ₹100.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "min_lumpsum",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "354c554b3d959919e317d05d9196e4b9",
+    "text": "The benchmark index for HDFC Mid Cap Fund - Direct Growth is NIFTY Midcap 150 TRI.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "benchmark",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "933fe74f454e8d3921979febea1e5876",
+    "text": "The riskometer classification for HDFC Mid Cap Fund - Direct Growth is Very High Risk.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "riskometer",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "46d070962e79b6b45ce9f9422313ca70",
+    "text": "HDFC Mid Cap Fund - Direct Growth belongs to the category: Equity: Mid Cap.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "category",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "8a3a4da4495e3d759286063d709b6479",
+    "text": "The fund manager for HDFC Mid Cap Fund - Direct Growth is Chirag Setalvad.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "fund_manager",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "1eb1517d58d5b3021e550fc065a0b263",
+    "text": "The lock-in period for HDFC Mid Cap Fund - Direct Growth is Nil.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "lock_in",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "98dd402b1593b390be3af90017dce853",
+    "text": "Taxation rules for HDFC Mid Cap Fund - Direct Growth: Equity taxation: Long-term capital gains (LTCG) above ₹1.25 Lakh taxed at 12.5%. Short-term capital gains (STCG) taxed at 20%.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "tax_treatment",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "c1fe165e841058f348cd177aa74de56c",
+    "text": "For downloading statements, statement of account (SoA), or capital gains reports for HDFC Mid Cap Fund - Direct Growth, investors can visit the official AMC website (hdfcfund.com) or CAMS/MFCentral online portals using PAN and Folio.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "statements_download",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
+    "chunk_id": "8bfdb4c57c5f5435538900eecb94d2aa",
+    "text": "HDFC Mid Cap Fund - Direct Growth (Equity: Mid Cap) has an expense ratio of 0.74%, exit load of 1.0% if redeemed within 1 year; Nil thereafter, minimum SIP of ₹100, and benchmark NIFTY Midcap 150 TRI. Risk is classified as Very High Risk.",
+    "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+    "field_name": "overview",
+    "source_url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+    "scrape_date": "2026-11-11",
+    "type": "mutual_fund"
+  },
+  {
     "chunk_id": "80b15a270e381fdd87c38240f7178576",
     "text": "The expense ratio of HDFC Small Cap Fund - Direct Growth is 0.65%.",
     "scheme_name": "HDFC Small Cap Fund - Direct Growth",

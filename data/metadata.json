@@ -2,6 +2,11 @@
   "sources": [
     {
       "type": "mutual_fund",
+      "name": "HDFC Mid Cap Fund - Direct Growth",
+      "url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth"
+    },
+    {
+      "type": "mutual_fund",
       "name": "HDFC Small Cap Fund - Direct Growth",
       "url": "https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth"
     },
@@ -26,10 +31,10 @@
       "url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd"
     }
   ],
-  "total_sources": 5,
-  "total_chunks": 59,
+  "total_sources": 6,
+  "total_chunks": 71,
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
-  "last_full_ingestion": "2026-11-11T19:39:19.454222",
+  "last_full_ingestion": "2026-11-11T20:06:08.501023",
   "last_scrape_date": "2026-11-11",
   "status": "COMPLETED"
 }

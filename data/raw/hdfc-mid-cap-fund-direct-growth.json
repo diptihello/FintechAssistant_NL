@@ -1,0 +1,18 @@
+{
+  "scheme_name": "HDFC Mid Cap Fund - Direct Growth",
+  "url": "https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth",
+  "type": "mutual_fund",
+  "scrape_date": "2026-11-11",
+  "amc": "HDFC Asset Management Company Limited",
+  "category": "Equity: Mid Cap",
+  "expense_ratio": "0.74%",
+  "exit_load": "1.0% if redeemed within 1 year; Nil thereafter",
+  "min_sip": "₹100",
+  "min_lumpsum": "₹100",
+  "lock_in": "Nil",
+  "benchmark": "NIFTY Midcap 150 TRI",
+  "riskometer": "Very High Risk",
+  "fund_manager": "Chirag Setalvad",
+  "tax_treatment": "Equity taxation: Long-term capital gains (LTCG) above ₹1.25 Lakh taxed at 12.5%. Short-term capital gains (STCG) taxed at 20%.",
+  "statement_download_process": "Download statements and capital gains tax reports via the official HDFC MF Online portal (hdfcfund.com) or CAMS/MFCentral using PAN and Folio."
+}
