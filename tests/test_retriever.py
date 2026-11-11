@@ -40,7 +40,7 @@ def test_retriever_mid_cap_expense_ratio(retriever):
     top = chunks[0]
     assert "HDFC Mid Cap" in top.scheme_name
     assert top.field_name == "expense_ratio"
-    assert "0.74%" in top.text
+    assert "0.6%" in top.text
 
 
 def test_retriever_silver_benchmark(retriever):

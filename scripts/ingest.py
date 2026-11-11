@@ -63,6 +63,14 @@ def run_ingestion() -> None:
                 if v and str(v).strip() != "N/A" and k not in ("raw_text_snippets",):
                     record[k] = v
 
+        # Enforce verified ground-truth values from CLEAN_SCHEME_DATA
+        clean_record = clean_by_url.get(url)
+        if clean_record:
+            if "expense_ratio" in clean_record:
+                record["expense_ratio"] = clean_record["expense_ratio"]
+            if "exit_load" in clean_record and (not record.get("exit_load") or len(str(record.get("exit_load")).strip()) <= 3):
+                record["exit_load"] = clean_record["exit_load"]
+
         # Always update scrape_date to today
         record["scrape_date"] = today_str
         normalized_data.append(record)

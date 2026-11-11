@@ -38,7 +38,7 @@ Chunk Structure:
 - **Small Cap Exit Load:**
   > `"HDFC Small Cap Fund Direct Growth - exit_load: The exit load for HDFC Small Cap Fund Direct Growth is 1.0% if redeemed or switched out on or before 1 year from the date of allotment; Nil thereafter."`
 - **Mid Cap Expense Ratio:**
-  > `"HDFC Mid Cap Fund Direct Growth - expense_ratio: The expense ratio of HDFC Mid Cap Fund Direct Growth is 0.74% (inclusive of GST)."`
+  > `"HDFC Mid Cap Fund Direct Growth - expense_ratio: The expense ratio of HDFC Mid Cap Fund Direct Growth is 0.6%."`
 - **ELSS / Lock-in Inquiry:**
   > `"HDFC Small Cap Fund Direct Growth - lock_in: The lock-in period for HDFC Small Cap Fund Direct Growth is Nil (It is an open-ended equity fund with no statutory lock-in period)."`
 

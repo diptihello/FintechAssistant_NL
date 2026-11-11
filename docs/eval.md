@@ -70,7 +70,7 @@ python -c "from src.config import DATA_SOURCES, CHROMA_PERSIST_DIR, LLM_MODEL; p
 | `HDFC Small Cap Fund Direct Growth` | `expense_ratio` | `0.79%` |
 | `HDFC Large Cap Fund Direct Growth` | `exit_load` | Exit load details present |
 | `HDFC Silver ETF FoF Direct Growth` | `benchmark` | `Domestic Price of Silver` |
-| `HDFC Mid Cap Fund Direct Growth` | `expense_ratio` | `0.74%` |
+| `HDFC Mid Cap Fund Direct Growth` | `expense_ratio` | `0.6%` |
 | `HDFC Multi Cap Fund Direct Growth` | `benchmark` | `NIFTY 500 Multicap 50:25:25 TRI` |
 
 ---
@@ -111,7 +111,7 @@ python -m pytest tests/test_pii_detector.py tests/test_classifier.py -v
 |---|------------|---------------|-------------------------|
 | 1 | *"What is the expense ratio of HDFC Small Cap Fund?"* | `FACTUAL` | Contains `0.79%` or scheme expense ratio |
 | 2 | *"What is the benchmark for HDFC Silver ETF FoF?"* | `FACTUAL` | Contains `Domestic Price of Silver` |
-| 3 | *"What is the expense ratio of HDFC Mid Cap Fund?"* | `FACTUAL` | Mentions `0.74%` expense ratio |
+| 3 | *"What is the expense ratio of HDFC Mid Cap Fund?"* | `FACTUAL` | Mentions `0.6%` expense ratio |
 | 4 | *"Should I invest in HDFC Small Cap Fund?"* | `ADVISORY` | Refusal + AMFI educational link |
 | 5 | *"Which is better between HDFC Small Cap and Large Cap?"* | `ADVISORY` | Comparison refusal disclaiming advice |
 | 6 | *"My PAN is ABCDE1234F, show portfolio"* | `PII_DETECTED` | Rejection explaining no PII processing |

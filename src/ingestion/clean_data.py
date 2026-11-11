@@ -11,7 +11,7 @@ CLEAN_SCHEME_DATA = [
         "scrape_date": "2026-11-11",
         "amc": "HDFC Asset Management Company Limited",
         "category": "Equity: Mid Cap",
-        "expense_ratio": "0.74%",
+        "expense_ratio": "0.6%",
         "exit_load": "1.0% if redeemed within 1 year; Nil thereafter",
         "min_sip": "₹100",
         "min_lumpsum": "₹100",

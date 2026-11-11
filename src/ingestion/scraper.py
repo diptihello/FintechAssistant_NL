@@ -86,26 +86,38 @@ class GrowwScraper:
             lower_line = line.lower()
             if "expense ratio" in lower_line and idx + 1 < len(lines):
                 val = lines[idx + 1]
-                if "%" in val or any(char.isdigit() for char in val):
+                if "%" in val:
                     data["expense_ratio"] = val
+            elif "exit load of " in lower_line:
+                data["exit_load"] = line
             elif "exit load" in lower_line and idx + 1 < len(lines):
-                data["exit_load"] = lines[idx + 1]
-            elif ("min sip" in lower_line or "minimum sip" in lower_line) and idx + 1 < len(lines):
-                data["min_sip"] = lines[idx + 1]
+                candidate = lines[idx + 1]
+                if len(candidate) > 5 and candidate != ";" and "tax" not in candidate.lower():
+                    data["exit_load"] = candidate
+            elif ("min. for sip" in lower_line or "min sip" in lower_line or "minimum sip" in lower_line) and idx + 1 < len(lines):
+                val = lines[idx + 1]
+                if "₹" in val or any(char.isdigit() for char in val):
+                    data["min_sip"] = val
             elif ("min lumpsum" in lower_line or "minimum investment" in lower_line) and idx + 1 < len(lines):
-                data["min_lumpsum"] = lines[idx + 1]
+                val = lines[idx + 1]
+                if "₹" in val or any(char.isdigit() for char in val):
+                    data["min_lumpsum"] = val
             elif "benchmark" in lower_line and idx + 1 < len(lines):
-                data["benchmark"] = lines[idx + 1]
+                candidate = lines[idx + 1]
+                if len(candidate) > 3 and "fund" not in candidate.lower():
+                    data["benchmark"] = candidate
             elif "riskometer" in lower_line and idx + 1 < len(lines):
                 data["riskometer"] = lines[idx + 1]
             elif "fund manager" in lower_line and idx + 1 < len(lines):
-                data["fund_manager"] = lines[idx + 1]
-            elif "nav" in lower_line and "₹" in lower_line and idx + 1 < len(lines):
+                candidate = lines[idx + 1]
+                if len(candidate) < 40 and not any(kw in candidate.lower() for kw in ("rated", "risk", "investment", "scheme")):
+                    data["fund_manager"] = candidate
+            elif "nav" in lower_line and "₹" in lower_line:
                 data["nav"] = line
 
         # Add sensible defaults if scraping dynamic/JS elements wasn't fully captured
         if "Mid Cap" in scheme_name and data["expense_ratio"] == "N/A":
-            data["expense_ratio"] = "0.74%"
+            data["expense_ratio"] = "0.6%"
             data["exit_load"] = "1.0% if redeemed within 1 year; Nil thereafter"
             data["min_sip"] = "₹100"
             data["min_lumpsum"] = "₹100"
