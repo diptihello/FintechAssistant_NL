@@ -450,6 +450,24 @@
     "type": "stock"
   },
   {
+    "chunk_id": "2601c0189b30b5c6d3c653d655a34178",
+    "text": "The Debt-to-Equity (D/E) ratio of Indian Railway Finance Corporation Ltd (IRFC) is 7.5.",
+    "scheme_name": "Indian Railway Finance Corporation Ltd (IRFC)",
+    "field_name": "debt_to_equity",
+    "source_url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",
+    "scrape_date": "2026-11-11",
+    "type": "stock"
+  },
+  {
+    "chunk_id": "e3454e6447ba19e2d6f6df660b0ff14c",
+    "text": "The Return on Equity (ROE) of Indian Railway Finance Corporation Ltd (IRFC) is 13.8%.",
+    "scheme_name": "Indian Railway Finance Corporation Ltd (IRFC)",
+    "field_name": "roe",
+    "source_url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",
+    "scrape_date": "2026-11-11",
+    "type": "stock"
+  },
+  {
     "chunk_id": "ab1cc95377de00901efe8b772c433c51",
     "text": "The dividend yield of Indian Railway Finance Corporation Ltd (IRFC) is 1.2%.",
     "scheme_name": "Indian Railway Finance Corporation Ltd (IRFC)",
@@ -505,7 +523,7 @@
   },
   {
     "chunk_id": "d93a89eb499b1e8bcec2bca751d4d192",
-    "text": "Indian Railway Finance Corporation Ltd (IRFC) is a PSU infrastructure finance company in Financial Services / Rail Infrastructure Financing with a market cap of ₹1,95,000 Cr, P/E ratio of 30.5, dividend yield of 1.2%, and promoter holding of 86.36% (President of India / Government of India).",
+    "text": "Indian Railway Finance Corporation Ltd (IRFC) is a PSU infrastructure finance company in Financial Services / Rail Infrastructure Financing with a market cap of ₹1,95,000 Cr, P/E ratio of 30.5, Debt-to-Equity ratio of 7.5, dividend yield of 1.2%, and promoter holding of 86.36% (President of India / Government of India).",
     "scheme_name": "Indian Railway Finance Corporation Ltd (IRFC)",
     "field_name": "overview",
     "source_url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",

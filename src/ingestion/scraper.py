@@ -154,6 +154,8 @@ class GrowwScraper:
             "market_cap": "₹1,95,000 Cr",
             "pe_ratio": "30.5",
             "pb_ratio": "4.1",
+            "debt_to_equity": "7.5",
+            "roe": "13.8%",
             "dividend_yield": "1.2%",
             "high_52w": "₹229.00",
             "low_52w": "₹115.00",
@@ -171,6 +173,10 @@ class GrowwScraper:
                 data["market_cap"] = lines[idx + 1]
             elif ("p/e ratio" in lower or lower == "p/e") and idx + 1 < len(lines):
                 data["pe_ratio"] = lines[idx + 1]
+            elif ("debt to equity" in lower or "debt/equity" in lower) and idx + 1 < len(lines):
+                data["debt_to_equity"] = lines[idx + 1]
+            elif "roe" in lower and idx + 1 < len(lines):
+                data["roe"] = lines[idx + 1]
             elif "dividend yield" in lower and idx + 1 < len(lines):
                 data["dividend_yield"] = lines[idx + 1]
             elif "52w high" in lower and idx + 1 < len(lines):

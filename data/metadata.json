@@ -27,9 +27,9 @@
     }
   ],
   "total_sources": 5,
-  "total_chunks": 57,
+  "total_chunks": 59,
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
-  "last_full_ingestion": "2026-11-11T18:41:48.783440",
+  "last_full_ingestion": "2026-11-11T19:39:19.454222",
   "last_scrape_date": "2026-11-11",
   "status": "COMPLETED"
 }

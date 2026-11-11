@@ -86,6 +86,8 @@ CLEAN_SCHEME_DATA = [
         "market_cap": "₹1,95,000 Cr",
         "pe_ratio": "30.5",
         "pb_ratio": "4.1",
+        "debt_to_equity": "7.5",
+        "roe": "13.8%",
         "dividend_yield": "1.2%",
         "high_52w": "₹229.00",
         "low_52w": "₹115.00",

@@ -54,7 +54,8 @@ class QueryClassifier:
         "fund", "scheme", "sip", "expense ratio", "exit load", "riskometer",
         "benchmark", "nav", "aum", "lock-in", "lock in", "elss", "statement",
         "capital gains", "amc", "mutual fund", "etf", "growth", "redemption", "investment",
-        "market cap", "p/e", "pe ratio", "dividend yield", "promoter holding"
+        "market cap", "p/e", "pe ratio", "dividend yield", "promoter holding",
+        "debt", "equity", "debt to equity", "d/e", "roe", "pb ratio"
     ]
 
     ADVISORY_REFUSAL = (

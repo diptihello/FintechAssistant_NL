@@ -97,6 +97,8 @@ class DocumentProcessor:
         stock_fields = [
             ("market_cap", f"The market capitalization of {name} is {data.get('market_cap')}."),
             ("pe_ratio", f"The Price-to-Earnings (P/E) ratio of {name} is {data.get('pe_ratio')}."),
+            ("debt_to_equity", f"The Debt-to-Equity (D/E) ratio of {name} is {data.get('debt_to_equity', '7.5')}."),
+            ("roe", f"The Return on Equity (ROE) of {name} is {data.get('roe', '13.8%')}."),
             ("dividend_yield", f"The dividend yield of {name} is {data.get('dividend_yield')}."),
             ("pb_ratio", f"The Price-to-Book (P/B) ratio of {name} is {data.get('pb_ratio', '4.1')}."),
             ("52w_high_low", f"The 52-week high for {name} is {data.get('high_52w')} and the 52-week low is {data.get('low_52w')}."),
@@ -121,7 +123,7 @@ class DocumentProcessor:
         overview_id = self.generate_chunk_id(url, "overview")
         chunks.append({
             "chunk_id": overview_id,
-            "text": f"{name} is a PSU infrastructure finance company in {data.get('sector')} with a market cap of {data.get('market_cap')}, P/E ratio of {data.get('pe_ratio')}, dividend yield of {data.get('dividend_yield')}, and promoter holding of {data.get('promoter_holding')}.",
+            "text": f"{name} is a PSU infrastructure finance company in {data.get('sector')} with a market cap of {data.get('market_cap')}, P/E ratio of {data.get('pe_ratio')}, Debt-to-Equity ratio of {data.get('debt_to_equity', '7.5')}, dividend yield of {data.get('dividend_yield')}, and promoter holding of {data.get('promoter_holding')}.",
             "scheme_name": name,
             "field_name": "overview",
             "source_url": url,

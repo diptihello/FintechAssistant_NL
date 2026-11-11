@@ -42,3 +42,13 @@ def test_retriever_exit_load(retriever):
     assert top.field_name == "exit_load"
 
 
+def test_retriever_irfc_debt_to_equity(retriever):
+    chunks = retriever.retrieve("What is the debt to equity ratio of IRFC?", top_k=3)
+    assert len(chunks) > 0
+    top = chunks[0]
+    assert "Indian Railway Finance Corporation" in top.scheme_name
+    assert top.field_name == "debt_to_equity"
+    assert "7.5" in top.text
+
+
+
