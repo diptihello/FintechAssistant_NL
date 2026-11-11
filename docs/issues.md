@@ -326,6 +326,26 @@ This document details the **manual verification**, bug fixes, architectural edge
   - Query: `"What is the P/E ratio of IRFC?"` returns: `"The Price-to-Earnings (P/E) ratio of Indian Railway Finance Corporation Ltd (IRFC) is 30.5."`.
   - `/api/health` returns `vectorstore_count: 59`.
 
+---
+
+### ISS-18: HDFC Mid Cap Fund Missing from Ingestion Corpus
+
+- **Symptoms:** User asked *"Expense ratio for HDFC Mid Cap Fund"* and received the out-of-corpus fallback *"I do not have this information in my verified records..."* with a citation to Small Cap.
+- **Root Cause Analysis:**
+  1. The project problem statement specified 5 HDFC schemes from Groww: Mid Cap, Small Cap, Large Cap, Silver ETF FoF, and Multi Cap.
+  2. While Small Cap, Large Cap, Silver FoF, Multi Cap, and IRFC were indexed, `HDFC Mid Cap Fund - Direct Growth` (`https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth`) was inadvertently excluded from `DATA_SOURCES` in `src/config.py`.
+  3. `src/guardrails/classifier.py` also lacked `"mid cap"` in `IN_SCOPE_KEYWORDS`.
+- **Resolution:**
+  1. Added `HDFC Mid Cap Fund - Direct Growth` to `DATA_SOURCES` in `src/config.py`.
+  2. Added ground-truth factual record for `HDFC Mid Cap Fund - Direct Growth` (expense ratio: `0.74%`, exit load: `1.0% within 1 year`, benchmark: `NIFTY Midcap 150 TRI`, fund manager: `Chirag Setalvad`) in `src/ingestion/clean_data.py`.
+  3. Added parsing heuristic in `GrowwScraper.parse_mutual_fund()`.
+  4. Added `"mid cap"` to `IN_SCOPE_KEYWORDS` and updated `OUT_OF_SCOPE_REFUSAL` in `src/guardrails/classifier.py`.
+  5. Re-ran ingestion: collection expanded from 59 chunks across 5 sources to **71 atomic chunks across 6 sources**.
+- **Verification:**
+  - Live query on Vercel production: `"Expense ratio for HDFC Mid Cap Fund"` returns:
+    `"The expense ratio of the HDFC Mid Cap Fund – Direct Growth variant is 0.74%.\n\nSource: https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth\nLast updated from sources: 2026-11-11"`.
+  - `/api/health` on Vercel returns `vectorstore_count: 71`.
+
 
 ---
 
