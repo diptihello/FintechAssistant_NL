@@ -67,7 +67,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/metadata.json data/raw/
+          git add data/metadata.json data/raw/ data/processed/
           if git diff --staged --quiet; then
             echo "No data changes detected. Skipping commit."
           else

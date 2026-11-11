@@ -37,7 +37,7 @@ class ResponseValidator:
         self,
         raw_response: str,
         source_url: str,
-        scrape_date: str = "2026-11-08"
+        scrape_date: Optional[str] = None
     ) -> str:
         """
         Validate and format the output:
@@ -46,6 +46,9 @@ class ResponseValidator:
         3. Enforce exactly 1 source citation link.
         4. Append 'Last updated from sources: <date>' footer.
         """
+        if not scrape_date:
+            from src.config import get_latest_scrape_date
+            scrape_date = get_latest_scrape_date()
         # Strip accidental PII
         pii_res = self.pii_detector.detect(raw_response)
         if pii_res.has_pii:

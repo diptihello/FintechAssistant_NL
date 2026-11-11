@@ -95,3 +95,27 @@ DATA_SOURCES = [
         "url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",
     },
 ]
+
+
+def get_latest_scrape_date() -> str:
+    """Return the latest scrape date recorded in metadata.json or current date."""
+    try:
+        import json
+        candidate_paths = [
+            METADATA_FILE,
+            PROJECT_ROOT / "data" / "metadata.json",
+            Path("data/metadata.json"),
+            Path("/tmp/metadata.json"),
+        ]
+        for p in candidate_paths:
+            if p.exists() and p.is_file():
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    val = data.get("last_scrape_date")
+                    if val:
+                        return str(val)
+    except Exception:
+        pass
+    from datetime import datetime
+    return datetime.now().strftime("%Y-%m-%d")
+

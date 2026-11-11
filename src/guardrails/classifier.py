@@ -104,7 +104,15 @@ class QueryClassifier:
         if query_type == QueryType.PII_DETECTED:
             return self.pii_detector.get_rejection_message()
         if query_type == QueryType.ADVISORY:
-            return self.ADVISORY_REFUSAL
+            from src.config import get_latest_scrape_date
+            latest_date = get_latest_scrape_date()
+            return (
+                "I am designed to provide facts only and cannot offer investment advice, "
+                "opinions, or fund comparisons. For financial planning and scheme suitability, "
+                "please consult a SEBI-registered investment advisor.\n\n"
+                "Educational resource: https://www.amfiindia.com/investor-corner/knowledge-center.html\n"
+                f"Last updated from sources: {latest_date}"
+            )
         if query_type == QueryType.OUT_OF_SCOPE:
             return self.OUT_OF_SCOPE_REFUSAL
         return ""

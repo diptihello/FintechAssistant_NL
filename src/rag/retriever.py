@@ -13,8 +13,11 @@ from src.config import (
     CHROMA_COLLECTION_NAME,
     CHROMA_PERSIST_DIR,
     EMBEDDING_MODEL,
+    PROJECT_ROOT,
+    PROCESSED_DATA_DIR,
     RELEVANCE_THRESHOLD,
     RETRIEVER_TOP_K,
+    get_latest_scrape_date,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -68,11 +71,37 @@ class FactRetriever:
 
     def _load_lightweight_corpus(self) -> None:
         """Load in-memory factual chunks for zero-dependency serverless environments."""
-        from src.ingestion.clean_data import CLEAN_SCHEME_DATA
-        from src.ingestion.processor import DocumentProcessor
+        import json
 
-        processor = DocumentProcessor()
-        self.chunks_cache = processor.process_all(CLEAN_SCHEME_DATA)
+        candidate_paths = [
+            PROCESSED_DATA_DIR / "chunks.json",
+            PROJECT_ROOT / "data" / "processed" / "chunks.json",
+            Path("data/processed/chunks.json"),
+            Path(__file__).resolve().parent.parent.parent / "data" / "processed" / "chunks.json",
+            Path("/tmp/data/processed/chunks.json"),
+        ]
+
+        loaded_chunks = None
+        for p in candidate_paths:
+            if p.exists() and p.is_file():
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        loaded_chunks = json.load(f)
+                    if loaded_chunks:
+                        logger.info("Loaded %d pre-processed chunks from %s", len(loaded_chunks), p)
+                        break
+                except Exception as exc:
+                    logger.warning("Could not read chunks from %s: %s", p, exc)
+
+        if loaded_chunks:
+            self.chunks_cache = loaded_chunks
+        else:
+            logger.info("Falling back to CLEAN_SCHEME_DATA processing for corpus.")
+            from src.ingestion.clean_data import CLEAN_SCHEME_DATA
+            from src.ingestion.processor import DocumentProcessor
+
+            processor = DocumentProcessor()
+            self.chunks_cache = processor.process_all(CLEAN_SCHEME_DATA)
 
         class MockCollection:
             def __init__(self, count: int):
@@ -87,6 +116,7 @@ class FactRetriever:
         import re
         query_words = set(re.findall(r"\w+", query.lower()))
         scored = []
+        latest_date = get_latest_scrape_date()
 
         for c in self.chunks_cache or []:
             text_lower = c["text"].lower()
@@ -116,7 +146,7 @@ class FactRetriever:
                         scheme_name=c["scheme_name"],
                         field_name=c["field_name"],
                         source_url=c["source_url"],
-                        scrape_date=c.get("scrape_date", "2026-11-10"),
+                        scrape_date=c.get("scrape_date") or latest_date,
                         relevance_score=min(1.0, score / 10.0),
                     )
                 )
@@ -129,7 +159,7 @@ class FactRetriever:
                     scheme_name=c["scheme_name"],
                     field_name=c["field_name"],
                     source_url=c["source_url"],
-                    scrape_date=c.get("scrape_date", "2026-11-10"),
+                    scrape_date=c.get("scrape_date") or latest_date,
                     relevance_score=0.5,
                 )
             )
@@ -164,7 +194,7 @@ class FactRetriever:
                 scheme_name=meta.get("scheme_name", ""),
                 field_name=meta.get("field_name", ""),
                 source_url=meta.get("source_url", ""),
-                scrape_date=meta.get("scrape_date", "2026-11-08"),
+                scrape_date=meta.get("scrape_date") or get_latest_scrape_date(),
                 relevance_score=similarity
             )
             chunks.append(chunk)

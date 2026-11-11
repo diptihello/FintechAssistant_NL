@@ -8,9 +8,9 @@ __pycache__/
 # Vector store
 vectorstore/chroma_db/
 
-# Data
-data/raw/
-data/processed/
+# Data (tracked in git for serverless ranker and daily ingestion updates)
+# data/raw/ and data/processed/ are intentionally tracked
+
 
 # IDE
 .vscode/

@@ -63,12 +63,13 @@ class RAGChain:
         # Step 2: Retrieve relevant facts from vector store
         chunks = self.retriever.retrieve(clean_query)
         if not chunks:
+            from src.config import get_latest_scrape_date
             fallback = (
                 "I do not have verified records matching your query in the curated HDFC & IRFC database. "
                 "Please verify directly on the official portal."
             )
             return ChainResult(
-                response=f"{fallback}\n\nSource: https://groww.in\nLast updated from sources: 2026-11-08",
+                response=f"{fallback}\n\nSource: https://groww.in\nLast updated from sources: {get_latest_scrape_date()}",
                 query_type=QueryType.FACTUAL.value,
                 source_url="https://groww.in",
                 timestamp=now_ts
