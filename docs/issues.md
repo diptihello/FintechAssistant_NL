@@ -305,6 +305,30 @@ This document details the **manual verification**, bug fixes, architectural edge
 
 ---
 
+### ISS-17: IRFC Debt-to-Equity Ratio Conflated with P/E Ratio (Missing Fundamental Stock Chunk)
+
+- **Symptoms:** User reported: *"Data is not looking good teh daat in teh sitte for Debt to Equity is 7.5 and our application i sshowing 30.5"*.
+- **Root Cause Analysis:**
+  1. In `src/ingestion/processor.py`, `process_stock()` previously only extracted `market_cap`, `pe_ratio`, `pb_ratio`, `dividend_yield`, `52w_high_low`, `sector`, and `promoter_holding`.
+  2. `debt_to_equity` was completely omitted from the atomic stock chunks.
+  3. When users queried *"What is the debt to equity ratio of IRFC?"*, term-frequency and embedding retrievers matched on `ratio` and `IRFC`, retrieving the `pe_ratio` chunk (`P/E ratio of IRFC is 30.5`). The LLM grounded its answer in this top chunk, mistakenly returning `30.5` instead of `7.5`.
+  4. In `src/guardrails/classifier.py`, `debt`, `equity`, and `debt to equity` were missing from `IN_SCOPE_KEYWORDS`.
+- **Resolution:**
+  1. Updated `src/ingestion/clean_data.py` and `data/raw/indian-railway-finance-corporation-ltd.json` with official Groww fundamentals: `"debt_to_equity": "7.5"` and `"roe": "13.8%"`.
+  2. Enhanced `GrowwScraper.parse_stock()` in `src/ingestion/scraper.py` to scrape `debt_to_equity` and `roe`.
+  3. Added dedicated atomic chunks for `debt_to_equity` and `roe` in `DocumentProcessor.process_stock()`, and included D/E in the `overview` stock chunk.
+  4. Added `debt`, `equity`, `debt to equity`, `d/e`, and `roe` to `IN_SCOPE_KEYWORDS` in `src/guardrails/classifier.py`.
+  5. Regenerated vectorstore and `data/processed/chunks.json` (increasing total collection count from 57 to 59 chunks).
+  6. Added automated unit test `test_retriever_irfc_debt_to_equity` in `tests/test_retriever.py`.
+- **Verification:**
+  - Query: `"What is the debt to equity ratio of IRFC?"` on Vercel production returns:
+    `"The Debt-to-Equity (D/E) ratio of Indian Railway Finance Corporation Ltd (IRFC) is 7.5.\n\nSource: https://groww.in/stocks/indian-railway-finance-corporation-ltd\nLast updated from sources: 2026-11-11"`.
+  - Query: `"What is the P/E ratio of IRFC?"` returns: `"The Price-to-Earnings (P/E) ratio of Indian Railway Finance Corporation Ltd (IRFC) is 30.5."`.
+  - `/api/health` returns `vectorstore_count: 59`.
+
+
+---
+
 ## 4. Manual Verification Test Matrix & Live Results
 
 The following test scenarios were manually executed against the running backend (`http://localhost:8000/api/chat`) and Stitch frontend to verify compliance:
