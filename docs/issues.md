@@ -282,6 +282,29 @@ This document details the **manual verification**, bug fixes, architectural edge
 
 ---
 
+### ISS-16: Application Not Using Latest Ingested Data in Serverless & CI/CD
+
+- **Symptoms:** User reported: *"Application is not using the latest data"*. Responses in Vercel production and advisories were returning static hardcoded dates (`2026-11-08`) and outdated expense ratios (`0.79%` instead of live-scraped `0.65%`).
+- **Root Cause Analysis:**
+  1. `.gitignore` was ignoring `data/raw/` and `data/processed/`, preventing `data/processed/chunks.json` (the compiled factual dataset) from being committed to Git or pushed to GitHub/Vercel.
+  2. In `.github/workflows/daily_ingestion.yml`, the auto-commit step only staged `data/metadata.json data/raw/` (which was ignored by git) and omitted `data/processed/`.
+  3. In `src/rag/retriever.py`, `_load_lightweight_corpus()` exclusively processed hardcoded `CLEAN_SCHEME_DATA` from `clean_data.py` instead of checking for `data/processed/chunks.json`.
+  4. Multiple guardrails and templates (`classifier.py`, `chain.py`, `retriever.py`, `response_validator.py`) contained hardcoded fallback strings for `"2026-11-08"`.
+- **Resolution:**
+  1. Updated `.gitignore` to explicitly track `data/raw/` and `data/processed/chunks.json`.
+  2. Implemented `get_latest_scrape_date()` in `src/config.py` to dynamically load the latest scrape timestamp from `metadata.json` or fallback to today.
+  3. Updated `FactRetriever._load_lightweight_corpus()` to load from `data/processed/chunks.json` first, enabling instant zero-dependency retrieval with the latest data.
+  4. Updated `src/ingestion/clean_data.py` baseline to match the latest live verified factsheet metrics.
+  5. Updated `.github/workflows/daily_ingestion.yml` to stage `data/metadata.json data/raw/ data/processed/`.
+  6. Replaced all hardcoded date strings with dynamic resolution from `get_latest_scrape_date()`.
+- **Verification:**
+  - Production query on Vercel: `"What is the expense ratio of HDFC Small Cap Fund Direct Growth?"` returns `0.65%` with footer `Last updated from sources: 2026-11-11`.
+  - Advisory refusal on Vercel returns `Last updated from sources: 2026-11-11`.
+  - `/api/health` returns `vectorstore_count: 57`.
+  - Full test suites pass cleanly: 18 unit tests in 3.75s, 6 validator/generator tests in 8.2s, 7 e2e tests in 7.24s.
+
+---
+
 ## 4. Manual Verification Test Matrix & Live Results
 
 The following test scenarios were manually executed against the running backend (`http://localhost:8000/api/chat`) and Stitch frontend to verify compliance:
