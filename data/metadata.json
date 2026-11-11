@@ -24,17 +24,12 @@
       "type": "mutual_fund",
       "name": "HDFC Multi Cap Fund - Direct Growth",
       "url": "https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth"
-    },
-    {
-      "type": "stock",
-      "name": "Indian Railway Finance Corporation Ltd (IRFC)",
-      "url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd"
     }
   ],
-  "total_sources": 6,
-  "total_chunks": 71,
+  "total_sources": 5,
+  "total_chunks": 60,
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
-  "last_full_ingestion": "2026-11-11T20:06:08.501023",
+  "last_full_ingestion": "2026-11-11T20:51:12.073335",
   "last_scrape_date": "2026-11-11",
   "status": "COMPLETED"
 }

@@ -26,29 +26,12 @@ def test_retriever_expense_ratio(retriever):
     assert "groww.in" in top.source_url
 
 
-def test_retriever_irfc_stock(retriever):
-    chunks = retriever.retrieve("What is the market cap of IRFC?", top_k=3)
-    assert len(chunks) > 0
-    top = chunks[0]
-    assert "Indian Railway Finance Corporation" in top.scheme_name
-    assert "groww.in/stocks" in top.source_url
-
-
 def test_retriever_exit_load(retriever):
     chunks = retriever.retrieve("What is the exit load for HDFC Large Cap Fund?", top_k=3)
     assert len(chunks) > 0
     top = chunks[0]
     assert "HDFC Large Cap" in top.scheme_name
     assert top.field_name == "exit_load"
-
-
-def test_retriever_irfc_debt_to_equity(retriever):
-    chunks = retriever.retrieve("What is the debt to equity ratio of IRFC?", top_k=3)
-    assert len(chunks) > 0
-    top = chunks[0]
-    assert "Indian Railway Finance Corporation" in top.scheme_name
-    assert top.field_name == "debt_to_equity"
-    assert any(val in top.text for val in ("7.5", "7.12", "7.1", "7."))
 
 
 def test_retriever_mid_cap_expense_ratio(retriever):
@@ -58,6 +41,14 @@ def test_retriever_mid_cap_expense_ratio(retriever):
     assert "HDFC Mid Cap" in top.scheme_name
     assert top.field_name == "expense_ratio"
     assert "0.74%" in top.text
+
+
+def test_retriever_silver_benchmark(retriever):
+    chunks = retriever.retrieve("What is the benchmark index for HDFC Silver ETF FoF?", top_k=3)
+    assert len(chunks) > 0
+    top = chunks[0]
+    assert "HDFC Silver" in top.scheme_name
+    assert top.field_name == "benchmark"
 
 
 

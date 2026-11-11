@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Groww Facts Q&A Assistant - Verified Financial Intelligence</title>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+    rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
     tailwind.config = {
@@ -57,35 +62,60 @@
   </script>
   <style>
     @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
     }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #bbcac1; border-radius: 4px; }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #bbcac1;
+      border-radius: 4px;
+    }
   </style>
 </head>
+
 <body class="bg-surface text-on-surface font-body-md antialiased flex h-screen overflow-hidden">
 
   <!-- LEFT SIDEBAR -->
-  <aside id="sidebar" class="w-[280px] shrink-0 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between border-r border-outline-variant/30 transition-all duration-300">
+  <aside id="sidebar"
+    class="w-[280px] shrink-0 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between border-r border-outline-variant/30 transition-all duration-300">
     <div class="flex flex-col h-full overflow-hidden">
       <!-- Logo Header -->
-      <div class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest border-b border-outline-variant/20">
+      <div
+        class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest border-b border-outline-variant/20">
         <div class="flex items-center gap-space-sm">
-          <div class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          <div
+            class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center font-bold text-lg shadow-sm">
             <span class="material-symbols-outlined text-[20px]">query_stats</span>
           </div>
           <span class="font-headline-sm text-base text-on-surface font-bold tracking-tight">Groww Facts Q&A</span>
         </div>
-        <button onclick="toggleSidebar()" class="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Hide Sidebar">
+        <button onclick="toggleSidebar()"
+          class="p-1 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+          title="Hide Sidebar">
           <span class="material-symbols-outlined text-[18px]">left_panel_close</span>
         </button>
       </div>
 
       <!-- New Thread Button -->
       <div class="px-space-md py-space-sm">
-        <button id="btn-new-thread" onclick="startNewThread()" class="w-full flex items-center justify-center gap-space-sm bg-primary-container text-on-primary py-2.5 px-space-md rounded-lg font-label-md text-sm hover:bg-primary transition-colors shadow-sm font-semibold">
+        <button id="btn-new-thread" onclick="startNewThread()"
+          class="w-full flex items-center justify-center gap-space-sm bg-primary-container text-on-primary py-2.5 px-space-md rounded-lg font-label-md text-sm hover:bg-primary transition-colors shadow-sm font-semibold">
           <span class="material-symbols-outlined text-[18px]">add</span>
           <span>New Chat Thread</span>
         </button>
@@ -93,7 +123,8 @@
 
       <!-- Optional Toggle to Show Past Threads (Hidden by default) -->
       <div class="px-space-md py-1">
-        <button id="btn-toggle-threads" onclick="toggleActiveThreadsSection()" class="w-full py-1.5 px-2.5 rounded-lg border border-dashed border-outline-variant/60 text-secondary hover:text-primary hover:border-primary/50 text-xs flex items-center justify-center gap-1.5 transition-colors bg-surface-container-lowest/50">
+        <button id="btn-toggle-threads" onclick="toggleActiveThreadsSection()"
+          class="w-full py-1.5 px-2.5 rounded-lg border border-dashed border-outline-variant/60 text-secondary hover:text-primary hover:border-primary/50 text-xs flex items-center justify-center gap-1.5 transition-colors bg-surface-container-lowest/50">
           <span id="btn-toggle-threads-icon" class="material-symbols-outlined text-[15px]">visibility</span>
           <span id="btn-toggle-threads-text">Show Past Threads</span>
         </button>
@@ -101,9 +132,11 @@
 
       <!-- Active Threads Section (HIDDEN BY DEFAULT) -->
       <div id="active-threads-section" class="hidden flex-1 flex flex-col overflow-hidden">
-        <div class="px-space-md py-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-xs font-semibold select-none border-t border-outline-variant/20 mt-1 pt-2">
+        <div
+          class="px-space-md py-space-xs flex items-center justify-between text-on-surface-variant font-label-sm text-xs font-semibold select-none border-t border-outline-variant/20 mt-1 pt-2">
           <span class="uppercase tracking-wider">Active Fact Threads</span>
-          <button onclick="toggleActiveThreadsSection()" class="p-0.5 rounded text-on-surface-variant hover:text-error transition-colors" title="Hide Threads">
+          <button onclick="toggleActiveThreadsSection()"
+            class="p-0.5 rounded text-on-surface-variant hover:text-error transition-colors" title="Hide Threads">
             <span class="material-symbols-outlined text-[16px]">close</span>
           </button>
         </div>
@@ -121,7 +154,8 @@
       <div class="p-space-md bg-surface-container-low border-t border-outline-variant/20 mt-auto flex flex-col gap-1.5">
         <div class="flex items-center gap-1.5">
           <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
           <span class="text-xs text-on-surface font-semibold">ChromaDB Vector Store</span>
@@ -145,9 +179,11 @@
       <div class="bg-tertiary-fixed text-on-tertiary-fixed px-space-lg py-1 flex items-center justify-between text-xs">
         <div class="flex items-center gap-1.5">
           <span class="material-symbols-outlined text-[16px] text-tertiary shrink-0">warning</span>
-          <p><strong class="font-semibold">Compliance Notice:</strong> Strictly facts-only assistant. No investment advice, buy/sell recommendations, or future forecasts.</p>
+          <p><strong class="font-semibold">Compliance Notice:</strong> Strictly facts-only assistant. No investment
+            advice, buy/sell recommendations, or future forecasts.</p>
         </div>
-        <a href="https://www.amfiindia.com/investor-corner" target="_blank" rel="noopener noreferrer" class="underline text-tertiary hover:text-on-tertiary-fixed font-semibold shrink-0 ml-4">
+        <a href="https://www.amfiindia.com/investor-corner" target="_blank" rel="noopener noreferrer"
+          class="underline text-tertiary hover:text-on-tertiary-fixed font-semibold shrink-0 ml-4">
           SEBI / AMFI Guidelines
         </a>
       </div>
@@ -155,20 +191,25 @@
       <!-- Navigation & Mode Indicator -->
       <div class="h-14 px-space-lg flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <button id="btn-toggle-sidebar" onclick="toggleSidebar()" class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors mr-1 flex items-center justify-center" title="Toggle Sidebar">
+          <button id="btn-toggle-sidebar" onclick="toggleSidebar()"
+            class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors mr-1 flex items-center justify-center"
+            title="Toggle Sidebar">
             <span class="material-symbols-outlined text-[20px]">menu</span>
           </button>
-          <span class="px-2.5 py-1 rounded-md bg-surface-container text-primary font-semibold text-xs flex items-center gap-1">
+          <span
+            class="px-2.5 py-1 rounded-md bg-surface-container text-primary font-semibold text-xs flex items-center gap-1">
             <span class="material-symbols-outlined text-[15px]">verified_user</span>
-            HDFC Mutual Funds & IRFC Stock
+            5 Curated HDFC Mutual Funds
           </span>
         </div>
         <div class="flex items-center gap-3">
-          <div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant text-xs">
+          <div
+            class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-low text-on-surface-variant text-xs">
             <span class="material-symbols-outlined text-[16px] text-primary">bolt</span>
             <span>Groq LLaMA 3.3 70B</span>
           </div>
-          <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-semibold">
+          <div
+            class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-semibold">
             <span class="material-symbols-outlined text-[16px]">person</span>
           </div>
         </div>
@@ -180,42 +221,60 @@
       <div class="max-w-[960px] w-full mx-auto flex flex-col space-y-space-md">
 
         <!-- HERO / EMPTY STATE BANNER -->
-        <div id="hero-banner" class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm border border-outline-variant/30">
-          <div class="absolute -right-12 -top-12 w-56 h-56 rounded-full bg-primary-container/10 blur-2xl pointer-events-none"></div>
+        <div id="hero-banner"
+          class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm border border-outline-variant/30">
+          <div
+            class="absolute -right-12 -top-12 w-56 h-56 rounded-full bg-primary-container/10 blur-2xl pointer-events-none">
+          </div>
           <div class="relative z-10 space-y-2">
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-semibold uppercase tracking-wider">
+            <div
+              class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary text-xs font-semibold uppercase tracking-wider">
               <span class="material-symbols-outlined text-[14px]">library_books</span>
               Grounded Public Filings Knowledge Base
             </div>
             <h1 class="text-xl md:text-2xl font-bold font-headline-lg text-on-surface tracking-tight">
-              Verified Facts for HDFC Mutual Funds & IRFC Stock
+              Verified Facts for 5 Curated HDFC Mutual Funds
             </h1>
             <p class="text-sm text-on-surface-variant max-w-2xl leading-relaxed">
-              Ask verified queries on expense ratios, exit loads, benchmark indices, fund managers, and equity valuations. Answers strictly conform to the Tri-Rule constraint (&le; 3 sentences, 1 citation link, and date footer).
+              Ask verified queries on expense ratios, exit loads, benchmark indices, fund managers, and minimum SIP
+              amounts. Answers strictly conform to the Tri-Rule constraint (&le; 3 sentences, 1 citation link, and date
+              footer).
             </p>
           </div>
 
           <!-- Quick Starter Prompt Chips -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4 pt-2">
-            <button onclick="setQuery('What is the expense ratio of HDFC Small Cap Fund Direct Growth?')" class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
-              <span class="p-2 rounded-lg bg-surface-container-lowest text-primary material-symbols-outlined text-[18px]">equalizer</span>
+            <button onclick="setQuery('What is the expense ratio of HDFC Small Cap Fund Direct Growth?')"
+              class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
+              <span
+                class="p-2 rounded-lg bg-surface-container-lowest text-primary material-symbols-outlined text-[18px]">equalizer</span>
               <div class="flex-1 min-w-0">
                 <span class="text-[11px] text-on-surface-variant block font-medium">Expense Ratio</span>
-                <p class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">Expense ratio of HDFC Small Cap Fund Direct?</p>
+                <p
+                  class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                  Expense ratio of HDFC Small Cap Fund Direct?</p>
               </div>
             </button>
-            <button onclick="setQuery('What is the exit load for HDFC Large Cap Fund?')" class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
-              <span class="p-2 rounded-lg bg-surface-container-lowest text-tertiary-container text-white material-symbols-outlined text-[18px]">timer</span>
+            <button onclick="setQuery('What is the exit load for HDFC Large Cap Fund?')"
+              class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
+              <span
+                class="p-2 rounded-lg bg-surface-container-lowest text-tertiary-container text-white material-symbols-outlined text-[18px]">timer</span>
               <div class="flex-1 min-w-0">
                 <span class="text-[11px] text-on-surface-variant block font-medium">Exit Load</span>
-                <p class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">Exit load policy for HDFC Large Cap Fund?</p>
+                <p
+                  class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                  Exit load policy for HDFC Large Cap Fund?</p>
               </div>
             </button>
-            <button onclick="setQuery('What is the market cap & P/E ratio of IRFC?')" class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
-              <span class="p-2 rounded-lg bg-surface-container-lowest text-primary-container text-white material-symbols-outlined text-[18px]">train</span>
+            <button onclick="setQuery('What is the minimum SIP for HDFC Mid Cap Fund?')"
+              class="group text-left p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all flex items-start gap-2.5 border border-outline-variant/20 hover:border-primary/40">
+              <span
+                class="p-2 rounded-lg bg-surface-container-lowest text-primary-container text-white material-symbols-outlined text-[18px]">savings</span>
               <div class="flex-1 min-w-0">
-                <span class="text-[11px] text-on-surface-variant block font-medium">Equities Valuation</span>
-                <p class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">Market cap and P/E ratio of IRFC?</p>
+                <span class="text-[11px] text-on-surface-variant block font-medium">SIP & Benchmarks</span>
+                <p
+                  class="text-xs text-on-surface font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                  Minimum SIP for HDFC Mid Cap Fund?</p>
               </div>
             </button>
           </div>
@@ -227,15 +286,19 @@
         </div>
 
         <!-- IN-FLIGHT RETRIEVAL SHIMMER LOADER -->
-        <div id="inflight-loader" class="hidden flex items-start gap-3 max-w-2xl mr-auto transition-opacity duration-300">
-          <div class="w-8 h-8 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-sm animate-pulse">
+        <div id="inflight-loader"
+          class="hidden flex items-start gap-3 max-w-2xl mr-auto transition-opacity duration-300">
+          <div
+            class="w-8 h-8 rounded-xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-sm animate-pulse">
             <span class="material-symbols-outlined text-[18px]">smart_toy</span>
           </div>
-          <div class="bg-surface-container-lowest rounded-2xl rounded-tl-xs p-3.5 shadow-sm border border-outline-variant/20 w-full space-y-2">
+          <div
+            class="bg-surface-container-lowest rounded-2xl rounded-tl-xs p-3.5 shadow-sm border border-outline-variant/20 w-full space-y-2">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="relative flex h-2.5 w-2.5">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
                 </span>
                 <span class="text-xs text-on-surface font-medium">Querying ChromaDB vector index (k=4)...</span>
@@ -257,25 +320,29 @@
     </main>
 
     <!-- CITATION DRAWER -->
-    <div id="citation-panel" class="fixed inset-y-0 right-0 w-full max-w-md bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-space-lg flex flex-col justify-between overflow-y-auto border-l border-outline-variant/30">
+    <div id="citation-panel"
+      class="fixed inset-y-0 right-0 w-full max-w-md bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-space-lg flex flex-col justify-between overflow-y-auto border-l border-outline-variant/30">
       <div class="space-y-4">
         <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
           <div class="flex items-center gap-1.5 text-primary font-bold text-sm">
             <span class="material-symbols-outlined text-[20px]">library_books</span>
             <span>Factual Evidence Trace</span>
           </div>
-          <button onclick="toggleCitationDrawer()" class="p-1 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors">
+          <button onclick="toggleCitationDrawer()"
+            class="p-1 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors">
             <span class="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
         <div class="bg-surface-container-low p-3.5 rounded-xl space-y-1">
           <span class="text-[11px] text-primary uppercase font-bold tracking-wider">Verified Source Entity</span>
           <h2 id="drawer-source-title" class="text-sm font-bold text-on-surface">Official Scheme Factsheet</h2>
-          <p id="drawer-source-url" class="text-xs font-mono text-secondary break-all">https://groww.in/mutual-funds/...</p>
+          <p id="drawer-source-url" class="text-xs font-mono text-secondary break-all">https://groww.in/mutual-funds/...
+          </p>
         </div>
         <div class="space-y-1.5">
           <span class="text-xs font-semibold text-on-surface">Retrieved Vector Chunk Reference</span>
-          <div id="drawer-source-snippet" class="p-3 rounded-xl bg-surface-container font-mono text-xs text-on-surface-variant leading-relaxed">
+          <div id="drawer-source-snippet"
+            class="p-3 rounded-xl bg-surface-container font-mono text-xs text-on-surface-variant leading-relaxed">
             Chunk context grounded in verified public filings.
           </div>
         </div>
@@ -288,11 +355,13 @@
         </div>
       </div>
       <div class="pt-4 space-y-2 border-t border-outline-variant/20">
-        <a id="drawer-inspect-link" href="#" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-1.5 py-2.5 bg-primary text-on-primary rounded-xl text-xs font-semibold hover:bg-primary-container transition-colors shadow-sm">
+        <a id="drawer-inspect-link" href="#" target="_blank" rel="noopener noreferrer"
+          class="w-full flex items-center justify-center gap-1.5 py-2.5 bg-primary text-on-primary rounded-xl text-xs font-semibold hover:bg-primary-container transition-colors shadow-sm">
           <span>Open Verified Source</span>
           <span class="material-symbols-outlined text-[16px]">open_in_new</span>
         </a>
-        <button onclick="toggleCitationDrawer()" class="w-full py-2 text-xs text-on-surface-variant hover:text-on-surface font-medium">
+        <button onclick="toggleCitationDrawer()"
+          class="w-full py-2 text-xs text-on-surface-variant hover:text-on-surface font-medium">
           Dismiss Drawer
         </button>
       </div>
@@ -301,29 +370,23 @@
     <!-- BOTTOM INPUT BAR -->
     <footer class="shrink-0 bg-surface px-space-lg pb-3 pt-1 border-t border-outline-variant/20">
       <div class="max-w-[960px] mx-auto w-full">
-        <div class="bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/40 p-2 focus-within:ring-2 focus-within:ring-primary-container transition-all">
+        <div
+          class="bg-surface-container-lowest rounded-2xl shadow-md border border-outline-variant/40 p-2 focus-within:ring-2 focus-within:ring-primary-container transition-all">
           <div class="flex items-center gap-2 px-2">
             <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
-            <input
-              type="text"
-              id="chat-input"
-              maxlength="500"
+            <input type="text" id="chat-input" maxlength="500"
               placeholder="Ask a factual question (e.g. expense ratio, exit load, benchmark, P/E ratio)..."
               class="w-full bg-transparent text-on-surface placeholder:text-on-surface-variant text-sm focus:outline-none py-1.5"
-              oninput="handleInput(event)"
-              onkeydown="handleKey(event)"
-            />
-            <button id="clear-btn" onclick="clearInput()" class="hidden text-on-surface-variant hover:text-on-surface p-1 rounded-full transition-colors" title="Clear">
+              oninput="handleInput(event)" onkeydown="handleKey(event)" />
+            <button id="clear-btn" onclick="clearInput()"
+              class="hidden text-on-surface-variant hover:text-on-surface p-1 rounded-full transition-colors"
+              title="Clear">
               <span class="material-symbols-outlined text-[18px]">cancel</span>
             </button>
             <div class="flex items-center gap-2 pl-1 shrink-0">
               <span id="char-counter" class="text-[11px] text-on-surface-variant font-mono">0/500</span>
-              <button
-                id="send-btn"
-                onclick="submitQuery()"
-                disabled
-                class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
-              >
+              <button id="send-btn" onclick="submitQuery()" disabled
+                class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:bg-primary transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm">
                 <span class="material-symbols-outlined text-[18px]">arrow_upward</span>
               </button>
             </div>
@@ -389,9 +452,8 @@
         data.threads.forEach(t => {
           const isActive = t.thread_id === currentThreadId;
           const div = document.createElement('div');
-          div.className = `group flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all ${
-            isActive ? 'bg-surface-container text-on-surface font-semibold border-l-4 border-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'
-          }`;
+          div.className = `group flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all ${isActive ? 'bg-surface-container text-on-surface font-semibold border-l-4 border-primary' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface'
+            }`;
           div.onclick = () => selectThread(t.thread_id);
 
           div.innerHTML = `
@@ -765,5 +827,5 @@
     }
   </script>
 </body>
-</html>
 
+</html>

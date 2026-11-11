@@ -1,6 +1,6 @@
 """
-Clean and curated ground-truth factual dataset for the 4 HDFC mutual funds and IRFC stock.
-Verified directly from Groww, AMC factsheets, and BSE/NSE filings.
+Clean and curated ground-truth factual dataset for the 5 curated HDFC mutual funds.
+Verified directly from Groww and AMC factsheets.
 """
 
 CLEAN_SCHEME_DATA = [
@@ -93,25 +93,5 @@ CLEAN_SCHEME_DATA = [
         "fund_manager": "Gopal Agrawal",
         "tax_treatment": "Equity taxation applies: LTCG taxed at 12.5% above ₹1.25 Lakh; STCG taxed at 20%.",
         "statement_download_process": "Capital gains statements and account statements can be downloaded via HDFC MF portal, CAMS, or MFCentral."
-    },
-    {
-        "scheme_name": "Indian Railway Finance Corporation Ltd (IRFC)",
-        "url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",
-        "type": "stock",
-        "scrape_date": "2026-11-11",
-        "sector": "Financial Services / Rail Infrastructure Financing",
-        "industry": "Non-Banking Financial Company (NBFC - Infrastructure)",
-        "market_cap": "₹1,95,000 Cr",
-        "pe_ratio": "30.5",
-        "pb_ratio": "4.1",
-        "debt_to_equity": "7.5",
-        "roe": "13.8%",
-        "dividend_yield": "1.2%",
-        "high_52w": "₹229.00",
-        "low_52w": "₹115.00",
-        "face_value": "₹10",
-        "promoter_holding": "86.36% (President of India / Government of India)",
-        "public_shareholding": "13.64%",
-        "statement_download_process": "Quarterly earnings, investor presentations, and annual reports can be downloaded from irfc.co.in or BSE/NSE corporate filing portals."
     }
 ]

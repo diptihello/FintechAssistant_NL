@@ -85,15 +85,15 @@ flowchart LR
 - Phase 1 complete (config, dependencies installed)
 - Network access for scraping Groww
 
-### Data Sources (4 HDFC Groww Mutual Funds + 1 Stock: IRFC)
+### Data Sources (5 HDFC Groww Mutual Funds)
 
-| # | Type | Scheme / Stock | URL |
-|---|------|----------------|-----|
-| 1 | Mutual Fund | HDFC Small Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth |
-| 2 | Mutual Fund | HDFC Large Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth |
-| 3 | Mutual Fund | HDFC Silver ETF FoF – Direct Growth | https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth |
-| 4 | Mutual Fund | HDFC Multi Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth |
-| 5 | Stock | Indian Railway Finance Corporation Ltd (IRFC) | https://groww.in/stocks/indian-railway-finance-corporation-ltd |
+| # | Type | Scheme | URL |
+|---|------|--------|-----|
+| 1 | Mutual Fund | HDFC Mid Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth |
+| 2 | Mutual Fund | HDFC Small Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth |
+| 3 | Mutual Fund | HDFC Large Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth |
+| 4 | Mutual Fund | HDFC Silver ETF FoF – Direct Growth | https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth |
+| 5 | Mutual Fund | HDFC Multi Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth |
 
 ### Tasks
 
@@ -799,7 +799,7 @@ flowchart TD
     end
 
     subgraph S2["2. Full Ingestion Lifecycle"]
-        INSTALL --> SCRAPE["Scrape 5 Groww URLs\n(4 HDFC MF + IRFC Stock)"]
+        INSTALL --> SCRAPE["Scrape 5 Groww URLs\n(5 HDFC Mutual Funds)"]
         SCRAPE --> NORMALIZE["Data Normalization & Cleaning\n(Save data/raw/*.json)"]
         NORMALIZE --> CHUNK["Atomic Field-Aware Chunking\n(Save data/processed/chunks.json)"]
         CHUNK --> EMBED["SentenceTransformer MiniLM-L6-v2\nDense Embedding Generation"]

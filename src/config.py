@@ -67,7 +67,7 @@ STREAMLIT_PORT = int(os.getenv("STREAMLIT_PORT", "8501"))
 THREAD_EXPIRY_MINUTES = int(os.getenv("THREAD_EXPIRY_MINUTES", "30"))
 MAX_HISTORY_TURNS = int(os.getenv("MAX_HISTORY_TURNS", "10"))
 
-# ── Data sources (5 HDFC Mutual Funds + 1 Stock: IRFC) ────────────────────────
+# ── Data sources (5 HDFC Mutual Funds) ────────────────────────
 DATA_SOURCES = [
     {
         "type": "mutual_fund",
@@ -93,11 +93,6 @@ DATA_SOURCES = [
         "type": "mutual_fund",
         "name": "HDFC Multi Cap Fund - Direct Growth",
         "url": "https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth",
-    },
-    {
-        "type": "stock",
-        "name": "Indian Railway Finance Corporation Ltd (IRFC)",
-        "url": "https://groww.in/stocks/indian-railway-finance-corporation-ltd",
     },
 ]
 

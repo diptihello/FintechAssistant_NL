@@ -29,8 +29,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Mutual Fund & Stock FAQ Assistant API",
-    description="Compliant, facts-only RAG assistant for HDFC Mutual Funds and IRFC Stock.",
+    title="Mutual Fund FAQ Assistant API",
+    description="Compliant, facts-only RAG assistant for HDFC Mutual Funds.",
     version="1.0.0",
     lifespan=lifespan,
 )

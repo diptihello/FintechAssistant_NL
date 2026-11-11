@@ -361,6 +361,25 @@ This document details the **manual verification**, bug fixes, architectural edge
   3. Changed invocation in `.github/workflows/daily_ingestion.yml` to `python -m pytest tests/test_retriever.py tests/test_classifier.py tests/test_pii_detector.py -v`.
 - **Verification:** Workflow runs regression tests with clean resolution.
 
+### ISS-20: Removal of IRFC Stock from Corpus and Implementation (Strict 5 Curated HDFC Mutual Funds Scope)
+- **Status:** **RESOLVED**
+- **Date:** 2026-11-11
+- **Severity:** Medium
+- **Symptom:** Project scope refined to exclusively cover the 5 curated HDFC Mutual Funds (`HDFC Mid Cap Fund`, `HDFC Small Cap Fund`, `HDFC Large Cap Fund`, `HDFC Silver ETF FoF`, `HDFC Multi Cap Fund`). The PSU stock `Indian Railway Finance Corporation Ltd (IRFC)` needed to be removed across corpus, ingestion, scraper, vectorstore, classifier, prompts, tests, and documentation.
+- **Root Cause Analysis:**
+  1. `DATA_SOURCES` in `src/config.py` and `CLEAN_SCHEME_DATA` contained the stock entry for IRFC.
+  2. Scraper and DocumentProcessor contained specialized `parse_stock` and `process_stock` logic.
+  3. Classifier included IRFC-specific keywords (`irfc`, `railway`, `pe ratio`, `debt to equity`).
+  4. Retriever unit tests included IRFC stock tests.
+- **Resolution:**
+  1. Removed IRFC from `DATA_SOURCES` in `src/config.py` and `src/ingestion/clean_data.py`.
+  2. Removed `parse_stock` and `process_stock` methods from `src/ingestion/scraper.py` and `src/ingestion/processor.py`.
+  3. Cleaned `IN_SCOPE_KEYWORDS` and updated `OUT_OF_SCOPE_REFUSAL` in `src/guardrails/classifier.py` and fallback strings in `src/rag/chain.py` and `src/rag/prompts.py`.
+  4. Removed `data/raw/indian-railway-finance-corporation-ltd.json` and re-ingested corpus (resulting in exactly 60 atomic chunks for the 5 HDFC schemes).
+  5. Updated `tests/test_retriever.py` to replace IRFC tests with HDFC mutual fund tests (`test_retriever_silver_benchmark`, `test_retriever_mid_cap_expense_ratio`).
+  6. Updated documentation and frontend suggestion chips.
+- **Verification:** Full regression test suite passed (17/17 tests passing). Ingestion generates exactly 60 chunks across 5 sources.
+
 
 
 ---
@@ -374,11 +393,11 @@ The following test scenarios were manually executed against the running backend 
 | **TC-01** | Mutual Fund Factual | *"What is the expense ratio of HDFC Small Cap Fund Direct Growth?"* | Returns `0.79%`, Groww citation, statutory date footer | `"The expense ratio of HDFC Small Cap Fund Direct Growth is 0.79%.\n\nSource: https://groww.in/... \nLast updated: 2026-11-08"` | **PASS** |
 | **TC-02** | Mutual Fund Exit Load | *"What is the exit load for HDFC Large Cap Fund?"* | Returns 1.0% within 1 year rule | Correctly returned 1.0% within 1 year; Nil thereafter with citation | **PASS** |
 | **TC-03** | Commodity ETF FoF | *"What is the benchmark index for HDFC Silver ETF FoF?"* | Returns `Domestic Price of Silver` | Correctly identified Domestic Price of Silver benchmark | **PASS** |
-| **TC-04** | Stock Equities Valuation | *"What is the market cap and P/E ratio of IRFC?"* | Returns `₹1.72L Cr` and `29.56` | Returns exact IRFC fundamentals with official stock Groww link | **PASS** |
-| **TC-05** | Advisory Refusal | *"Should I invest in IRFC stock for quick profits?"* | Refusal citing SEBI guidelines + AMFI link | Refusal issued: *"I am designed to provide facts only and cannot offer investment advice..."* | **PASS** |
+| **TC-04** | Mutual Fund Factual | *"What is the expense ratio and category for HDFC Mid Cap Fund?"* | Returns `0.74%` and Equity Mid Cap | Returns exact Mid Cap fundamentals with official Groww link | **PASS** |
+| **TC-05** | Advisory Refusal | *"Should I invest in HDFC Mid Cap Fund for quick profits?"* | Refusal citing SEBI guidelines + AMFI link | Refusal issued: *"I am designed to provide facts only and cannot offer investment advice..."* | **PASS** |
 | **TC-06** | Fund Comparison Refusal | *"Which is better between HDFC Small Cap and Large Cap?"* | Refusal disclaiming subjective comparisons | Refusal issued disclaiming opinions and comparisons | **PASS** |
 | **TC-07** | Sensitive PII Interception | *"My PAN is ABCDE1234F, show my tax report"* | Strict rejection without vector search | Intercepted by regex: *"I cannot process personal or sensitive information..."* | **PASS** |
-| **TC-08** | Out of Scope Query | *"What is the capital of France?"* | Polite domain limitation message | Returns out-of-scope guidance indicating focus on HDFC & IRFC | **PASS** |
+| **TC-08** | Out of Scope Query | *"What is the capital of France?"* | Polite domain limitation message | Returns out-of-scope guidance indicating focus on 5 curated HDFC mutual funds | **PASS** |
 | **TC-09** | Unindexed Field Query | *"What is the current NAV of HDFC Small Cap Fund?"* | Fallback explaining unindexed fact (`RAG-02`) | Grounded fallback: *"I do not have this information in my verified records..."* | **PASS** |
 | **TC-10** | Multi-Turn Pronoun | Turn 1: *"What is exit load of HDFC Small Cap?"* → Turn 2: *"What is its expense ratio?"* | Correct antecedent resolution for *"its"* | Correctly resolved "its" to HDFC Small Cap and returned 0.79% | **PASS** |
 

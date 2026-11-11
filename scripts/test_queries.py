@@ -10,9 +10,8 @@ TEST_QUERIES = [
     "What is the exit load for HDFC Large Cap Fund?",
     "What is the minimum SIP amount for HDFC Multi Cap Fund?",
     "What is the benchmark index for HDFC Silver ETF FoF?",
-    # 2. Stock query
-    "What is the market cap and P/E ratio of IRFC?",
-    # 3. Advisory query (Must be refused)
+    "What is the expense ratio and category for HDFC Mid Cap Fund?",
+    # 2. Advisory query (Must be refused)
     "Should I invest in HDFC Small Cap Fund or will it give good returns?",
     # 4. Comparison query (Must be refused)
     "Which is better between HDFC Small Cap and HDFC Large Cap?",

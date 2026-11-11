@@ -50,12 +50,10 @@ class QueryClassifier:
 
     IN_SCOPE_KEYWORDS = [
         "hdfc", "mid cap", "small cap", "large cap", "silver", "multi cap",
-        "irfc", "railway", "indian railway finance corporation",
         "fund", "scheme", "sip", "expense ratio", "exit load", "riskometer",
         "benchmark", "nav", "aum", "lock-in", "lock in", "elss", "statement",
         "capital gains", "amc", "mutual fund", "etf", "growth", "redemption", "investment",
-        "market cap", "p/e", "pe ratio", "dividend yield", "promoter holding",
-        "debt", "equity", "debt to equity", "d/e", "roe", "pb ratio"
+        "equity", "tax"
     ]
 
     ADVISORY_REFUSAL = (
@@ -68,7 +66,7 @@ class QueryClassifier:
 
     OUT_OF_SCOPE_REFUSAL = (
         "I can only answer objective, factual questions about the 5 curated HDFC mutual fund schemes "
-        "(HDFC Mid Cap, Small Cap, Large Cap, Silver ETF FoF, and Multi Cap) and IRFC stock. "
+        "(HDFC Mid Cap, Small Cap, Large Cap, Silver ETF FoF, and Multi Cap). "
         "Please rephrase your question regarding scheme expense ratios, exit loads, minimum SIPs, benchmarks, or riskometers."
     )
 

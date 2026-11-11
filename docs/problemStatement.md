@@ -31,16 +31,16 @@ Design and implement a lightweight **Retrieval-Augmented Generation (RAG)**-base
 
 ### 1. Corpus Definition
 
-- **AMC Selected:** HDFC AMC (with selected PSU Stock: IRFC)
+- **AMC Selected:** HDFC AMC
 - **Data Sources (Groww URLs):**
 
-  | # | Type | Scheme / Stock | URL |
-  |---|------|----------------|-----|
-  | 1 | Mutual Fund | HDFC Small Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth |
-  | 2 | Mutual Fund | HDFC Large Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth |
-  | 3 | Mutual Fund | HDFC Silver ETF FoF – Direct Growth | https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth |
-  | 4 | Mutual Fund | HDFC Multi Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth |
-  | 5 | Stock | Indian Railway Finance Corporation Ltd (IRFC) | https://groww.in/stocks/indian-railway-finance-corporation-ltd |
+  | # | Type | Scheme | URL |
+  |---|------|--------|-----|
+  | 1 | Mutual Fund | HDFC Mid Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth |
+  | 2 | Mutual Fund | HDFC Small Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth |
+  | 3 | Mutual Fund | HDFC Large Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth |
+  | 4 | Mutual Fund | HDFC Silver ETF FoF – Direct Growth | https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth |
+  | 5 | Mutual Fund | HDFC Multi Cap Fund – Direct Growth | https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth |
 
 ### 2. FAQ Assistant Requirements
 
@@ -53,7 +53,6 @@ The assistant must answer **facts-only** queries, including but not limited to:
 - Riskometer classification
 - Benchmark index
 - Process to download statements or capital gains reports
-- Stock metrics for IRFC (Market capitalization, P/E ratio, 52-week high/low, dividend yield, sector)
 
 **Response Rules:**
 

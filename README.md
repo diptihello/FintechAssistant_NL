@@ -15,13 +15,13 @@ A production-grade, compliance-first Retrieval-Augmented Generation (RAG) assist
 
 ## 📌 Features
 
-- **Facts-Only Grounded Q&A**: Answers objective queries regarding expense ratios, exit loads, minimum SIPs, benchmarks, riskometer classifications, ELSS lock-in, and stock fundamentals (P/E ratio, market cap, dividend yield, 52W high/low).
+- **Facts-Only Grounded Q&A**: Answers objective queries regarding expense ratios, exit loads, minimum SIPs, benchmarks, riskometer classifications, ELSS lock-in, and scheme fund managers.
 - **5 Verified Data Sources**:
+  - HDFC Mid Cap Fund – Direct Growth
   - HDFC Small Cap Fund – Direct Growth
   - HDFC Large Cap Fund – Direct Growth
   - HDFC Silver ETF FoF – Direct Growth
   - HDFC Multi Cap Fund – Direct Growth
-  - Indian Railway Finance Corporation Ltd (IRFC)
 - **Multi-Thread Chat Session Management**: UUID-based concurrent conversation sessions with 10-turn sliding window memory, thread isolation, and automatic 30-minute inactivity pruning.
 - **Multi-Layer Guardrails**:
   - **Layer 1 (Zero-PII)**: Deterministic regex detector rejecting PAN, Aadhaar, phone numbers, emails, and OTPs before LLM execution.
@@ -83,11 +83,11 @@ For complete architectural specifications, see [docs/architecture.md](file:///d:
 
 | Scheme / Security | Category | Verified Groww URL |
 |---|---|---|
+| **HDFC Mid Cap Fund** | Equity - Mid Cap | `https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth` |
 | **HDFC Small Cap Fund** | Equity - Small Cap | `https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth` |
 | **HDFC Large Cap Fund** | Equity - Large Cap | `https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth` |
 | **HDFC Silver ETF FoF** | Commodities - Silver | `https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth` |
 | **HDFC Multi Cap Fund** | Equity - Multi Cap | `https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth` |
-| **Indian Railway Finance Corp (IRFC)** | PSU Stock / Equity | `https://groww.in/stocks/indian-railway-finance-corporation-ltd` |
 
 ---
 
@@ -181,7 +181,7 @@ python -m pytest tests/ -v
 | *"Should I invest in HDFC Large Cap Fund?"* | `ADVISORY` | Polite refusal + SEBI/AMFI advisor link |
 | *"My PAN is ABCDE1234F, check my balance"* | `PII_DETECTED` | Strict refusal alerting sensitive PII |
 | *"What is the weather today in Mumbai?"* | `OUT_OF_SCOPE` | Polite domain scope limitation |
-| *"What is the P/E ratio and market cap of IRFC?"* | `FACTUAL` | Returns `29.56` & `₹1.72L Cr` with official stock URL |
+| *"What is the benchmark index of HDFC Silver ETF FoF?"* | `FACTUAL` | Returns `Domestic Price of Physical Silver` with official URL |
 
 To run the live batch query benchmark:
 ```bash

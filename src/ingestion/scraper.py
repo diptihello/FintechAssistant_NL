@@ -147,67 +147,8 @@ class GrowwScraper:
 
         return data
 
-    def parse_stock(self, html: str, source_info: Dict[str, Any]) -> Dict[str, Any]:
-        """Parse stock page (e.g., IRFC) into structured factual metrics."""
-        soup = BeautifulSoup(html, "html.parser")
-        name = source_info.get("name", "Indian Railway Finance Corporation Ltd (IRFC)")
-        url = source_info.get("url", "")
-        today = time.strftime("%Y-%m-%d")
-
-        data: Dict[str, Any] = {
-            "scheme_name": name,
-            "url": url,
-            "type": "stock",
-            "scrape_date": today,
-            "market_cap": "₹1,95,000 Cr",
-            "pe_ratio": "30.5",
-            "pb_ratio": "4.1",
-            "debt_to_equity": "7.5",
-            "roe": "13.8%",
-            "dividend_yield": "1.2%",
-            "high_52w": "₹229.00",
-            "low_52w": "₹115.00",
-            "sector": "Financial Services / Rail Infrastructure Financing",
-            "industry": "Non-Banking Financial Company (NBFC - Infrastructure)",
-            "promoter_holding": "86.36% (President of India / Government of India)",
-        }
-
-        # Dynamic heuristic parsing from page text if available
-        def is_clean_metric(val: str) -> bool:
-            v = val.strip()
-            if not v or v.startswith("*") or len(v) > 25:
-                return False
-            return any(c.isdigit() for c in v) or v in ("N/A", "Nil")
-
-        text_content = soup.get_text(separator="\n")
-        lines = [line.strip() for line in text_content.splitlines() if line.strip()]
-        for idx, line in enumerate(lines):
-            lower = line.lower().strip()
-            if idx + 1 >= len(lines):
-                continue
-            next_val = lines[idx + 1].strip()
-
-            if lower in ("market cap", "market capitalization") and is_clean_metric(next_val):
-                data["market_cap"] = next_val
-            elif lower in ("p/e ratio", "p/e", "pe ratio") and is_clean_metric(next_val):
-                data["pe_ratio"] = next_val
-            elif lower in ("p/b ratio", "p/b", "pb ratio") and is_clean_metric(next_val):
-                data["pb_ratio"] = next_val
-            elif lower in ("debt to equity", "debt/equity", "debt-to-equity") and is_clean_metric(next_val):
-                data["debt_to_equity"] = next_val
-            elif lower in ("roe", "return on equity") and is_clean_metric(next_val):
-                data["roe"] = next_val
-            elif lower in ("dividend yield",) and is_clean_metric(next_val):
-                data["dividend_yield"] = next_val
-            elif lower in ("52w high", "52-week high") and is_clean_metric(next_val):
-                data["high_52w"] = next_val
-            elif lower in ("52w low", "52-week low") and is_clean_metric(next_val):
-                data["low_52w"] = next_val
-
-        return data
-
     def scrape_all(self, sources: Optional[List[Dict[str, Any]]] = None) -> List[Dict[str, Any]]:
-        """Scrape all configured data sources (Mutual Funds + Stock)."""
+        """Scrape all configured data sources (Mutual Funds)."""
         sources = sources or DATA_SOURCES
         results = []
 
@@ -215,15 +156,9 @@ class GrowwScraper:
 
         for source in sources:
             url = source["url"]
-            source_type = source.get("type", "mutual_fund")
             logger.info("Scraping source: %s (%s)", source["name"], url)
             html = self.fetch_page(url)
-            
-            if source_type == "stock":
-                parsed_data = self.parse_stock(html or "", source)
-            else:
-                parsed_data = self.parse_mutual_fund(html or "", source)
-            
+            parsed_data = self.parse_mutual_fund(html or "", source)
             results.append(parsed_data)
 
             # Save raw extracted structured data

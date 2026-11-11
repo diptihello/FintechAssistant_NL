@@ -1,6 +1,6 @@
 # Data Research & RAG Architecture Optimization Report
 
-> **Project:** Mutual Fund & Stock FAQ Assistant (Facts-Only Q&A)  
+> **Project:** Mutual Fund FAQ Assistant (Facts-Only Q&A)  
 > **Location:** `docs/data_research.md`  
 > **Scope:** Ground truth analysis on clean dataset, optimal chunking strategy, embedding model benchmark, and vector database evaluation.
 
@@ -8,11 +8,11 @@
 
 ## 1. Executive Summary & Clean Data Audit
 
-An empirical audit of the raw scraped records from Groww revealed significant semantic parsing nuances across the 5 target assets (4 HDFC mutual fund schemes + IRFC stock):
+An empirical audit of the raw scraped records from Groww revealed significant semantic parsing nuances across the 5 target assets (5 HDFC mutual fund schemes):
 
 ### Key Observations from Raw Data
 1. **Dynamic Text Conflation:** On mutual fund pages, key investment constraints (such as *"Minimum SIP Investment is set to ₹100"* and *"Exit load of 1% if redeemed within 1 year"*) appear grouped inside unstructured fund overview text blocks rather than individual standalone CSS selectors.
-2. **Stock Page Field Collisions:** Dynamic tables on stock pages (e.g. IRFC) had label-value offset collisions where metric labels (e.g. `P/E ratio`, `52 week low`) were scraped into adjacent metric fields.
+2. **Tabular Formatting:** Dynamic tables on scheme pages require clean key-value normalization to prevent label-value offset collisions.
 3. **Requirement for High-Fidelity Ground Truth:** To guarantee **zero hallucination** and strict regulatory compliance, the RAG knowledge base must ingest clean, verified facts containing unambiguous figures, terms, and regulatory footnotes.
 
 ---
@@ -37,8 +37,8 @@ Chunk Structure:
 #### Examples:
 - **Small Cap Exit Load:**
   > `"HDFC Small Cap Fund Direct Growth - exit_load: The exit load for HDFC Small Cap Fund Direct Growth is 1.0% if redeemed or switched out on or before 1 year from the date of allotment; Nil thereafter."`
-- **IRFC Market Cap:**
-  > `"Indian Railway Finance Corporation Ltd (IRFC) - market_cap: The market capitalization of Indian Railway Finance Corporation Ltd (IRFC) is ₹1,95,000+ Crore (Large Cap PSU)."`
+- **Mid Cap Expense Ratio:**
+  > `"HDFC Mid Cap Fund Direct Growth - expense_ratio: The expense ratio of HDFC Mid Cap Fund Direct Growth is 0.74% (inclusive of GST)."`
 - **ELSS / Lock-in Inquiry:**
   > `"HDFC Small Cap Fund Direct Growth - lock_in: The lock-in period for HDFC Small Cap Fund Direct Growth is Nil (It is an open-ended equity fund with no statutory lock-in period)."`
 

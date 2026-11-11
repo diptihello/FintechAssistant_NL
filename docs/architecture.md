@@ -237,8 +237,8 @@ flowchart LR
 
 | Aspect | Detail |
 |--------|--------|
-| **Target URLs** | 5 Groww pages (4 HDFC mutual funds/ETFs + 1 Stock: IRFC) |
-| **Extraction targets** | **Mutual Funds:** Scheme name, category, expense ratio, exit load, min SIP, min lump sum, benchmark index, riskometer, fund manager, lock-in period. **Stock (IRFC):** Company name, market cap, P/E ratio, dividend yield, 52-week high/low, sector, PB ratio |
+| **Target URLs** | 5 Groww pages (5 curated HDFC mutual funds/ETFs) |
+| **Extraction targets** | **Mutual Funds:** Scheme name, category, expense ratio, exit load, min SIP, min lump sum, benchmark index, riskometer, fund manager, lock-in period, statement download process. |
 | **Method** | HTTP GET → parse HTML with BeautifulSoup → extract structured fields from known CSS selectors / page structure |
 | **Output** | One JSON file per scheme in `data/raw/` |
 | **Error handling** | Retry with exponential backoff (max 3 retries); log failures |

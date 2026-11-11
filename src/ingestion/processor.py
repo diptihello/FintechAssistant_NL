@@ -88,50 +88,6 @@ class DocumentProcessor:
 
         return chunks
 
-    def process_stock(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Convert stock record (e.g. IRFC) into atomic factual chunks."""
-        name = data.get("scheme_name", "Indian Railway Finance Corporation Ltd (IRFC)")
-        url = data.get("url", "")
-        scrape_date = data.get("scrape_date", "2026-11-08")
-
-        stock_fields = [
-            ("market_cap", f"The market capitalization of {name} is {data.get('market_cap')}."),
-            ("pe_ratio", f"The Price-to-Earnings (P/E) ratio of {name} is {data.get('pe_ratio')}."),
-            ("debt_to_equity", f"The Debt-to-Equity (D/E) ratio of {name} is {data.get('debt_to_equity', '7.5')}."),
-            ("roe", f"The Return on Equity (ROE) of {name} is {data.get('roe', '13.8%')}."),
-            ("dividend_yield", f"The dividend yield of {name} is {data.get('dividend_yield')}."),
-            ("pb_ratio", f"The Price-to-Book (P/B) ratio of {name} is {data.get('pb_ratio', '4.1')}."),
-            ("52w_high_low", f"The 52-week high for {name} is {data.get('high_52w')} and the 52-week low is {data.get('low_52w')}."),
-            ("sector", f"{name} operates in the {data.get('sector')} sector ({data.get('industry')})."),
-            ("promoter_holding", f"The promoter holding of {name} is {data.get('promoter_holding')}."),
-            ("reports_download", f"Official financial statements, annual reports, quarterly investor presentations, and shareholder disclosures for {name} can be downloaded from the official IRFC investor relations portal (irfc.co.in) or BSE/NSE website disclosures.")
-        ]
-
-        chunks = []
-        for field_name, sentence in stock_fields:
-            chunk_id = self.generate_chunk_id(url, field_name)
-            chunks.append({
-                "chunk_id": chunk_id,
-                "text": sentence,
-                "scheme_name": name,
-                "field_name": field_name,
-                "source_url": url,
-                "scrape_date": scrape_date,
-                "type": "stock"
-            })
-
-        overview_id = self.generate_chunk_id(url, "overview")
-        chunks.append({
-            "chunk_id": overview_id,
-            "text": f"{name} is a PSU infrastructure finance company in {data.get('sector')} with a market cap of {data.get('market_cap')}, P/E ratio of {data.get('pe_ratio')}, Debt-to-Equity ratio of {data.get('debt_to_equity', '7.5')}, dividend yield of {data.get('dividend_yield')}, and promoter holding of {data.get('promoter_holding')}.",
-            "scheme_name": name,
-            "field_name": "overview",
-            "source_url": url,
-            "scrape_date": scrape_date,
-            "type": "stock"
-        })
-        return chunks
-
     def process_all(self, raw_items: Optional[List[Dict[str, Any]]] = None) -> List[Dict[str, Any]]:
         """Process all raw data files or in-memory items and save processed chunks."""
         if raw_items is None:
@@ -142,10 +98,7 @@ class DocumentProcessor:
 
         all_chunks = []
         for item in raw_items:
-            if item.get("type") == "stock":
-                chunks = self.process_stock(item)
-            else:
-                chunks = self.process_scheme(item)
+            chunks = self.process_scheme(item)
             all_chunks.extend(chunks)
 
         try:

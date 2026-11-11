@@ -65,7 +65,7 @@ class RAGChain:
         if not chunks:
             from src.config import get_latest_scrape_date
             fallback = (
-                "I do not have verified records matching your query in the curated HDFC & IRFC database. "
+                "I do not have verified records matching your query in the curated HDFC mutual funds database. "
                 "Please verify directly on the official portal."
             )
             return ChainResult(

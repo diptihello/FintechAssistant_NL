@@ -387,7 +387,7 @@ with st.sidebar:
         <span style="font-size: 1.8rem;">📈</span>
         <div>
             <div class="sidebar-brand-title">Groww Facts Q&A</div>
-            <div class="sidebar-brand-sub">HDFC Mutual Funds & IRFC Stock</div>
+            <div class="sidebar-brand-sub">Curated HDFC Mutual Funds</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -494,8 +494,8 @@ st.markdown("""
             <div class="stitch-hero-tag">
                 <span>🛡️</span> Public Filings Database
             </div>
-            <div class="stitch-hero-title">Verified Facts for HDFC Mutual Funds & IRFC Stock</div>
-            <div class="stitch-hero-desc">Ask any verifiable query on expense ratios, exit loads, minimum SIPs, benchmarks, or stock fundamentals.</div>
+            <div class="stitch-hero-title">Verified Facts for 5 Curated HDFC Mutual Funds</div>
+            <div class="stitch-hero-desc">Ask any verifiable query on expense ratios, exit loads, minimum SIPs, benchmarks, or riskometers.</div>
         </div>
     </div>
 </div>
@@ -516,9 +516,9 @@ with col2:
         prompt_to_send = "What is the exit load for HDFC Large Cap Fund?"
 
 with col3:
-    st.markdown("<div style='font-size:0.75rem; font-weight:700; color:#00b386; margin-bottom:4px;'>🚂 EQUITIES VALUATION</div>", unsafe_allow_html=True)
-    if st.button("What is the market cap & P/E ratio of IRFC?", key="chip_3", use_container_width=True):
-        prompt_to_send = "What is the market cap and P/E ratio of IRFC?"
+    st.markdown("<div style='font-size:0.75rem; font-weight:700; color:#00b386; margin-bottom:4px;'>🎯 BENCHMARK & SIP</div>", unsafe_allow_html=True)
+    if st.button("What is the minimum SIP for HDFC Mid Cap Fund?", key="chip_3", use_container_width=True):
+        prompt_to_send = "What is the minimum SIP for HDFC Mid Cap Fund?"
 
 # Handle quick prompt click
 if prompt_to_send:

@@ -33,7 +33,7 @@ Design a modern, high-trust, minimalist Web Application UI for a "Facts-Only Mut
 - **Header:** Brand Logo (minimalist geometric icon) + App Name: `"Groww Facts Q&A"`.
 - **Primary CTA Button:** `"+ New Chat Thread"` with emerald pill styling.
 - **Thread List:** Scrollable list of active conversations:
-  - Each item displays thread title (e.g. *"HDFC Small Cap Expense"*, *"IRFC Market Cap"*), timestamp, message count chip (`3 msgs`), and a subtle delete icon on hover.
+  - Each item displays thread title (e.g. *"HDFC Small Cap Expense"*, *"HDFC Mid Cap SIP"*), timestamp, message count chip (`3 msgs`), and a subtle delete icon on hover.
   - Active thread highlighted with an emerald left-border or light emerald background tint.
 - **Footer:** 
   - Backend connection status indicator: Green pulsing dot with text `"ChromaDB Vector Store: 57 Chunks Indexed"`.
@@ -46,12 +46,12 @@ Design a modern, high-trust, minimalist Web Application UI for a "Facts-Only Mut
 
 #### 3. Main Chat Viewport
 - **Welcome / Empty State (When starting a new conversation):**
-  - Friendly header: `"Verified Facts for HDFC Mutual Funds & IRFC Stock"`.
-  - Sub-caption: `"Ask any verifiable query on expense ratios, exit loads, minimum SIPs, benchmarks, or stock fundamentals."`
+  - Friendly header: `"Verified Facts for 5 Curated HDFC Mutual Funds"`.
+  - Sub-caption: `"Ask any verifiable query on expense ratios, exit loads, minimum SIPs, benchmarks, or riskometers."`
   - **Quick Prompt Cards (3 Interactive Clickable Chips):**
     1. 📊 *"What is the expense ratio of HDFC Small Cap Fund?"*
     2. ⏱️ *"What is the exit load for HDFC Large Cap Fund?"*
-    3. 🚂 *"What is the market cap & P/E ratio of IRFC?"*
+    3. 🎯 *"What is the minimum SIP for HDFC Mid Cap Fund?"*
 
 - **Chat Message Bubbles:**
   - **User Bubble:** Right-aligned, subtle light slate background (`#F0F3F7`), dark text, rounded corners (16px).
