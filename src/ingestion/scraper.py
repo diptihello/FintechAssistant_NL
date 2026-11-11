@@ -173,24 +173,36 @@ class GrowwScraper:
         }
 
         # Dynamic heuristic parsing from page text if available
+        def is_clean_metric(val: str) -> bool:
+            v = val.strip()
+            if not v or v.startswith("*") or len(v) > 25:
+                return False
+            return any(c.isdigit() for c in v) or v in ("N/A", "Nil")
+
         text_content = soup.get_text(separator="\n")
         lines = [line.strip() for line in text_content.splitlines() if line.strip()]
         for idx, line in enumerate(lines):
-            lower = line.lower()
-            if "market cap" in lower and idx + 1 < len(lines):
-                data["market_cap"] = lines[idx + 1]
-            elif ("p/e ratio" in lower or lower == "p/e") and idx + 1 < len(lines):
-                data["pe_ratio"] = lines[idx + 1]
-            elif ("debt to equity" in lower or "debt/equity" in lower) and idx + 1 < len(lines):
-                data["debt_to_equity"] = lines[idx + 1]
-            elif "roe" in lower and idx + 1 < len(lines):
-                data["roe"] = lines[idx + 1]
-            elif "dividend yield" in lower and idx + 1 < len(lines):
-                data["dividend_yield"] = lines[idx + 1]
-            elif "52w high" in lower and idx + 1 < len(lines):
-                data["high_52w"] = lines[idx + 1]
-            elif "52w low" in lower and idx + 1 < len(lines):
-                data["low_52w"] = lines[idx + 1]
+            lower = line.lower().strip()
+            if idx + 1 >= len(lines):
+                continue
+            next_val = lines[idx + 1].strip()
+
+            if lower in ("market cap", "market capitalization") and is_clean_metric(next_val):
+                data["market_cap"] = next_val
+            elif lower in ("p/e ratio", "p/e", "pe ratio") and is_clean_metric(next_val):
+                data["pe_ratio"] = next_val
+            elif lower in ("p/b ratio", "p/b", "pb ratio") and is_clean_metric(next_val):
+                data["pb_ratio"] = next_val
+            elif lower in ("debt to equity", "debt/equity", "debt-to-equity") and is_clean_metric(next_val):
+                data["debt_to_equity"] = next_val
+            elif lower in ("roe", "return on equity") and is_clean_metric(next_val):
+                data["roe"] = next_val
+            elif lower in ("dividend yield",) and is_clean_metric(next_val):
+                data["dividend_yield"] = next_val
+            elif lower in ("52w high", "52-week high") and is_clean_metric(next_val):
+                data["high_52w"] = next_val
+            elif lower in ("52w low", "52-week low") and is_clean_metric(next_val):
+                data["low_52w"] = next_val
 
         return data
 
