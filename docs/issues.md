@@ -267,6 +267,21 @@ This document details the **manual verification**, bug fixes, architectural edge
 
 ---
 
+### ISS-15: GitHub Actions Scheduled Ingestion Failure (HF_HUB_OFFLINE in CI)
+
+- **Symptoms:** GitHub Actions scheduled runs of `.github/workflows/daily_ingestion.yml` failed at `Step: Run End-to-End Ingestion Pipeline`.
+- **Root Cause Analysis:**
+  - `src/config.py` hardcoded `HF_HUB_OFFLINE = "1"` when `os.getenv("VERCEL") != "1"`.
+  - On a fresh GitHub Actions runner (`ubuntu-latest`), the HuggingFace cache directory was empty.
+  - When `DocumentEmbedder` attempted to download `sentence-transformers/all-MiniLM-L6-v2`, HuggingFace threw an offline mode error (`Cannot reach https://huggingface.co/api/models/...: offline mode is enabled`).
+- **Resolution:**
+  1. Updated `src/config.py` to detect `CI` and `GITHUB_ACTIONS` (`is_ci = os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true"`), explicitly setting `HF_HUB_OFFLINE = "0"`.
+  2. Updated `.github/workflows/daily_ingestion.yml` to set `HF_HUB_OFFLINE: "0"` and `TRANSFORMERS_OFFLINE: "0"` during both ingestion and test execution steps.
+  3. Hardened `DocumentEmbedder.clear_collection()` to safely handle initial non-existent collection state.
+- **Verification:** Local ingestion runs cleanly (`data/metadata.json` updated with 57 chunks), and all 16 regression tests pass in `tests/test_retriever.py`, `tests/test_classifier.py`, and `tests/test_pii_detector.py`.
+
+---
+
 ## 4. Manual Verification Test Matrix & Live Results
 
 The following test scenarios were manually executed against the running backend (`http://localhost:8000/api/chat`) and Stitch frontend to verify compliance:

@@ -45,13 +45,14 @@ class DocumentEmbedder:
         """Clear all existing records in the collection."""
         try:
             self.client.delete_collection(self.collection_name)
-            self.collection = self.client.get_or_create_collection(
-                name=self.collection_name,
-                metadata={"hnsw:space": "cosine"}
-            )
-            logger.info("Cleared and recreated collection: %s", self.collection_name)
         except Exception as e:
-            logger.warning("Error clearing collection: %s", e)
+            logger.info("Collection %s did not exist or could not be deleted: %s", self.collection_name, e)
+
+        self.collection = self.client.get_or_create_collection(
+            name=self.collection_name,
+            metadata={"hnsw:space": "cosine"}
+        )
+        logger.info("Collection '%s' ready for ingestion.", self.collection_name)
 
     def embed_and_store(self, chunks: List[Dict[str, Any]]) -> int:
         """Generate embeddings and upsert into ChromaDB."""

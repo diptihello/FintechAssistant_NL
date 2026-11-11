@@ -8,16 +8,21 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Ensure HuggingFace Hub and transformers use local cached weights locally, while allowing download in serverless environments (Vercel)
-if os.getenv("VERCEL") != "1":
-    os.environ.setdefault("HF_HUB_OFFLINE", "1")
-    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
-else:
+# Configure HuggingFace environment:
+# Allow online model downloads in CI (GitHub Actions), Docker, and Vercel.
+is_ci = os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true"
+is_vercel = os.getenv("VERCEL") == "1"
+
+if is_ci or is_vercel:
     os.environ["HF_HUB_OFFLINE"] = "0"
     os.environ["TRANSFORMERS_OFFLINE"] = "0"
-    os.environ.setdefault("HF_HOME", "/tmp/huggingface")
-    os.environ.setdefault("TRANSFORMERS_CACHE", "/tmp/huggingface")
-    os.environ.setdefault("TORCH_HOME", "/tmp/torch")
+    if is_vercel:
+        os.environ.setdefault("HF_HOME", "/tmp/huggingface")
+        os.environ.setdefault("TRANSFORMERS_CACHE", "/tmp/huggingface")
+        os.environ.setdefault("TORCH_HOME", "/tmp/torch")
+else:
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 # Load .env file
 load_dotenv()

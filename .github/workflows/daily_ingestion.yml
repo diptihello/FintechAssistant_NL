@@ -40,12 +40,16 @@ jobs:
       - name: Run End-to-End Ingestion Pipeline
         env:
           PYTHONPATH: .
+          HF_HUB_OFFLINE: "0"
+          TRANSFORMERS_OFFLINE: "0"
         run: |
           python scripts/ingest.py
 
       - name: Run Post-Ingestion Regression Tests
         env:
           PYTHONPATH: .
+          HF_HUB_OFFLINE: "0"
+          TRANSFORMERS_OFFLINE: "0"
         run: |
           pytest tests/test_retriever.py tests/test_classifier.py tests/test_pii_detector.py -v
 
