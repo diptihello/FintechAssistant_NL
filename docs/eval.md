@@ -70,8 +70,8 @@ python -c "from src.config import DATA_SOURCES, CHROMA_PERSIST_DIR, LLM_MODEL; p
 | `HDFC Small Cap Fund Direct Growth` | `expense_ratio` | `0.79%` |
 | `HDFC Large Cap Fund Direct Growth` | `exit_load` | Exit load details present |
 | `HDFC Silver ETF FoF Direct Growth` | `benchmark` | `Domestic Price of Silver` |
-| `Indian Railway Finance Corporation Ltd` | `market_cap` | Market capitalization record present |
-| `Indian Railway Finance Corporation Ltd` | `sector` | Financial Services / Infrastructure Finance |
+| `HDFC Mid Cap Fund Direct Growth` | `expense_ratio` | `0.74%` |
+| `HDFC Multi Cap Fund Direct Growth` | `benchmark` | `NIFTY 500 Multicap 50:25:25 TRI` |
 
 ---
 

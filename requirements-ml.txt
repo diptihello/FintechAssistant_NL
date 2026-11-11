@@ -1,5 +1,5 @@
 # requirements-ml.txt
-# Heavy Machine Learning & Container Dependencies for Railway and local development
+# Heavy Machine Learning dependencies for local development and CI/CD ingestion
 -r requirements.txt
 sentence-transformers>=2.2.0
 chromadb>=0.4.0

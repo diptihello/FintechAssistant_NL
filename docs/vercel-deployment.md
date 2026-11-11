@@ -11,7 +11,7 @@
 
 This document outlines the deployment configuration for hosting the **Mutual Fund & Stock FAQ Assistant** on **[Vercel](https://vercel.com)** using Vercel Serverless Functions.
 
-Unlike traditional container platforms (such as Railway or Render), Vercel runs Python applications as on-demand, stateless **AWS Lambda-based Serverless Functions** with:
+Unlike traditional long-running servers, Vercel runs Python applications as on-demand, stateless **AWS Lambda-based Serverless Functions** with:
 - Ephemeral root filesystem (`/var/task` is strictly read-only).
 - Writable scratch storage limited to `/tmp` (512MB default).
 - Zero-downtime serverless auto-scaling and global edge CDN caching.
@@ -113,32 +113,21 @@ vercel --prod
 
 ---
 
-## 5. Architectural Comparison: Vercel vs. Railway
-
-| Dimension | Vercel (Serverless) | Railway (Docker Container) |
-|---|---|---|
-| **Execution Model** | Stateless Serverless Functions | Long-running container (Uvicorn) |
-| **Cold Starts** | ~4–8s on cold container | 0s (Instant response, model pre-loaded) |
-| **Filesystem** | Ephemeral, read-only except `/tmp` | Persistent or container storage |
-| **Cost** | Free tier available | Free tier / Usage-based |
-| **Best For** | Static UI + lightweight APIs | High-throughput RAG & local embeddings |
-
----
-
-## 6. Post-Deployment Verification Checklist
+## 5. Post-Deployment Verification Checklist
 
 Once deployed on Vercel:
 
-- [ ] Visit `https://<your-project>.vercel.app/` — verify that the Stitch FinTech Web Dashboard loads cleanly.
-- [ ] Visit `https://<your-project>.vercel.app/api/health` — verify response:
+- [ ] Visit `https://fintechassistant-nl.vercel.app/` — verify that the Stitch FinTech Web Dashboard loads cleanly.
+- [ ] Visit `https://fintechassistant-nl.vercel.app/api/health` — verify response:
   ```json
-  {"status":"ok","version":"1.0.0","total_threads":0,"vectorstore_count":57}
+  {"status":"ok","version":"1.0.0","total_threads":0,"vectorstore_count":60}
   ```
-- [ ] Visit `https://<your-project>.vercel.app/docs` — verify interactive Swagger documentation.
+- [ ] Visit `https://fintechassistant-nl.vercel.app/docs` — verify interactive Swagger documentation.
 - [ ] Submit a test query: *"What is the expense ratio of HDFC Small Cap Fund Direct Growth?"* — verify factual answer with citation link and date footer.
 
 ---
 
 > **Plan maintained by:** FinTech AI Platform Engineering Team  
 > **Source Repository:** [diptihello/FintechAssistant_NL](https://github.com/diptihello/FintechAssistant_NL)
+> **Production URL:** [https://fintechassistant-nl.vercel.app](https://fintechassistant-nl.vercel.app)
 

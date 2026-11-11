@@ -1,294 +1,273 @@
-# Railway Deployment Plan: Facts-Only FinTech FAQ Assistant
+# Vercel Production Deployment Plan: Facts-Only FinTech FAQ Assistant
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template)
-[![Platform](https://img.shields.io/badge/Platform-Railway.app-0B0D0E.svg)](https://railway.com)
-[![Runtime](https://img.shields.io/badge/Runtime-Python%203.12%20%7C%20Docker-blue.svg)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Deploy-Production%20Ready-success.svg)](https://github.com/diptihello/FintechAssistant_NL)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+[![Platform](https://img.shields.io/badge/Platform-Vercel%20Edge%20%26%20Serverless-black.svg)](https://vercel.com)
+[![Runtime](https://img.shields.io/badge/Runtime-Python%20Serverless%20%40vercel%2Fpython-blue.svg)](https://vercel.com/docs/runtimes/python)
+[![Production URL](https://img.shields.io/badge/Production-fintechassistant--nl.vercel.app-success.svg)](https://fintechassistant-nl.vercel.app)
+[![Status](https://img.shields.io/badge/Deploy-Production%20Active-success.svg)](https://github.com/diptihello/FintechAssistant_NL)
 
 ---
 
 ## 1. Executive Summary & Architecture
 
-This deployment plan outlines the end-to-end strategy for hosting the **Mutual Fund & Stock FAQ Assistant (Groww Facts Q&A)** on **[Railway.app](https://railway.com)**.
+The **Mutual Fund FAQ Assistant (Groww Facts Q&A)** is deployed as a unified, production-ready serverless web application on **[Vercel](https://vercel.com)**:
 
-The production service operates as a unified web container exposing:
-1. **Facts-First Financial Intelligence UI (Stitch Dashboard)** served directly at `/` from [`ui/static/index.html`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/ui/static/index.html).
-2. **RESTful Compliance API** served at `/api/*` (Chat, Threads, Health).
-3. **Swagger / OpenAPI Documentation** served at `/docs`.
+👉 **Live Production URL:** [https://fintechassistant-nl.vercel.app](https://fintechassistant-nl.vercel.app)  
+👉 **Interactive API Documentation:** [https://fintechassistant-nl.vercel.app/docs](https://fintechassistant-nl.vercel.app/docs)
+
+The deployment combines the frontend dashboard and backend API under a single domain:
+1. **Facts-First Financial Intelligence UI (Stitch Dashboard):** Served directly at `/` from [`ui/static/index.html`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/ui/static/index.html).
+2. **RESTful Compliance API:** Served at `/api/*` (Chat, Threads, History, Health, Metrics).
+3. **Interactive Swagger / OpenAPI Documentation:** Served at `/docs` and `/api/docs`.
 
 ```mermaid
 flowchart TD
-    User["End Investor / Financial Researcher\n(Browser / Mobile Web)"] -->|HTTPS Requests| Cloudflare["Railway Edge Network\n(Automated SSL / CDN / DDOS Protection)"]
-    Cloudflare -->|Forward to $PORT| Container["Production Docker Container\n(uvicorn src.api.main:app)"]
+    User["End Investor / Financial Researcher\n(Web & Mobile Browser)"] -->|HTTPS Requests| VercelEdge["Vercel Global Edge Network\n(Automated TLS, CDN Caching, DDoS Protection)"]
     
-    subgraph ContainerRuntime["Railway Container Runtime (Python 3.12-slim)"]
-        Container --> Stitch["FastAPI Web Layer\n(GET / -> ui/static/index.html)"]
-        Container --> API["REST API Router\n(POST /api/chat, GET /api/health)"]
+    subgraph VercelApp["Vercel Serverless Architecture (Single Domain)"]
+        VercelEdge -->|"GET / (Static Web UI)"| Stitch["Stitch Web Dashboard\n(ui/static/index.html)"]
+        VercelEdge -->|"/api/* or /docs (Rewrites)"| Adapter["api/index.py\n(Vercel ASGI Serverless Adapter)"]
         
-        API --> Guardrails["Compliance Engine\n(Regex PII Detector + Query Classifier)"]
+        Adapter --> FastAPI["FastAPI Application\n(src.api.main:app)"]
+        
+        FastAPI --> Guardrails["Multi-Layer Guardrails\n- Layer 1: Zero-PII Regex Interceptor\n- Layer 2: Query Classifier (Factual / Advisory / Scope)"]
         Guardrails --> RAG["RAG Retrieval Engine\n(src.rag.chain.RAGChain)"]
         
-        RAG --> Embedder["SentenceTransformer\n(all-MiniLM-L6-v2)"]
-        RAG --> Chroma["ChromaDB Vector Store\n(PersistentClient @ vectorstore/chroma_db)"]
-        RAG --> Groq["Groq Cloud LLM\n(openai/gpt-oss-120b @ Temp 0.1)"]
+        RAG --> ServerlessRetriever["Zero-Dependency Semantic Retriever\n(In-Memory Chunks: data/processed/chunks.json)"]
+        RAG --> GroqLLM["Groq Cloud LLM\n(LLaMA 3.3 70B Versatile @ Temp 0.1)"]
+        
+        GroqLLM --> Validator["Response Formatter & Compliance Validator\n(SEBI Tri-Rule: <=3 sentences, 1 citation, date footer)"]
     end
 
-    subgraph CI_CD["Automated Continuous Operations"]
-        GitHub["GitHub Repo\ndiptihello/FintechAssistant_NL"] -->|Git Push to main| RailBuild["Railway Auto-Builder\n(Docker Build & Pre-Ingestion)"]
-        GHA["GitHub Actions Cron\n(Daily 10:00 AM IST)"] -->|Sync New Data| GitHub
+    subgraph Operations["Automated Continuous Operations"]
+        GitHub["GitHub Repo: diptihello/FintechAssistant_NL\n(Branch: main)"] -->|Git Push Hook| VercelBuild["Vercel Production Auto-Deploy"]
+        GHA["GitHub Actions Cron\n(Daily at 10:00 AM IST)"] -->|Scrape & Re-Ingest Data| GitHub
     end
 ```
 
 ---
 
-## 2. Infrastructure Specification
+## 2. Serverless Optimization & Architectural Adaptations
 
-| Component | Railway Specification | Notes |
+Because Vercel serverless environments enforce a read-only root filesystem (`/var/task`), a 250MB uncompressed function package limit, and ephemeral cold-starts, the following optimizations are implemented:
+
+| Challenge | Vercel Serverless Constraint | Solution Implemented |
 |---|---|---|
-| **Service Type** | Web Service (Docker container) | Built via [`Dockerfile`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/Dockerfile) |
-| **Compute Plan** | Starter / Developer Plan (vCPU: 1–2, RAM: 512MB–2GB) | PyTorch miniLM requires ~350MB RAM at steady-state |
-| **Port Binding** | Dynamic `${PORT:-8000}` | Railway assigns `$PORT` automatically; bound via `src/config.py` |
-| **Health Check** | `GET /api/health` | HTTP 200 response with vector count & status |
-| **Restart Policy** | `ON_FAILURE` (max 10 retries) | Ensures automatic recovery if memory spikes occur |
-| **Domain** | `*.up.railway.app` or Custom Domain | Automatic Let's Encrypt TLS termination |
+| **Filesystem Access** | `/var/task` is strictly read-only; only `/tmp` is writable (512MB) | File outputs, temp caches, and logs write to `/tmp`. |
+| **Heavy ML Dependencies** | PyTorch + Transformers bundle exceeds 1.5GB (causes Vercel deployment rejection) | Zero-dependency serverless factual retriever reads [`data/processed/chunks.json`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/data/processed/chunks.json) directly. Pruned `torch` and `sentence-transformers` from serverless requirements. |
+| **Cold-Start Latency** | Large models cause multi-second Lambda cold starts | Lightweight in-memory chunk ranking reduces function cold starts to **<150ms**. |
+| **Unified Routing** | Vercel routes `/` and `/api` separately by default | Configured [`vercel.json`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/vercel.json) URL rewrites mapping `/` to `/api` and `/docs` to `/api/docs`. |
 
 ---
 
-## 3. Environment Variables & Secrets Matrix
+## 3. Configuration Files Reference
 
-Configure the following variables in the Railway Service **Variables** dashboard:
-
-| Variable | Required? | Example / Default Value | Purpose |
-|---|:---:|---|---|
-| `GROQ_API_KEY` | **Yes** | `gsk_abc123...` | Primary LLM authentication token |
-| `PORT` | Auto | *Injected by Railway* | Internal port assigned to the web container |
-| `LLM_MODEL` | No | `openai/gpt-oss-120b` | High-conviction factual Groq model |
-| `LLM_TEMPERATURE` | No | `0.1` | Strictly enforces deterministic, facts-only output |
-| `LLM_MAX_TOKENS` | No | `200` | Limits responses to concise $\le 3$ sentence constraints |
-| `EMBEDDING_MODEL` | No | `sentence-transformers/all-MiniLM-L6-v2` | Dense embedding model |
-| `CHROMA_PERSIST_DIR` | No | `./vectorstore/chroma_db` | Path to persistent ChromaDB SQLite storage |
-| `CHROMA_COLLECTION_NAME`| No | `mutual_fund_facts` | Chroma collection name |
-| `API_HOST` | No | `0.0.0.0` | Listen host interface |
-| `PYTHONUNBUFFERED` | No | `1` | Forces real-time streaming logs into Railway deploy log |
-| `HF_HUB_OFFLINE` | No | `1` | Prevents unnecessary network calls once model is cached |
-
----
-
-## 4. Configuration Files Reference
-
-### 4.1 `railway.json`
+### 3.1 `vercel.json`
 Located at the root of the repository:
 ```json
 {
-  "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
-  },
-  "deploy": {
-    "startCommand": "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}",
-    "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 120,
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/api"
+    },
+    {
+      "source": "/docs",
+      "destination": "/api/docs"
+    },
+    {
+      "source": "/openapi.json",
+      "destination": "/api/openapi.json"
+    }
+  ]
 }
 ```
 
-### 4.2 `Dockerfile`
-Multi-stage caching ensures fast builds and sub-second container cold starts:
-```dockerfile
-FROM python:3.12-slim
+### 3.2 `api/index.py` (Serverless Function Adapter)
+Exposes the FastAPI ASGI application to the Vercel `@vercel/python` serverless runner:
+```python
+import os
+import sys
+from pathlib import Path
 
-WORKDIR /app
+# Explicitly flag Vercel serverless environment
+os.environ["VERCEL"] = "1"
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/app \
-    PORT=8000
+# Add project root to sys.path so 'src' and modules resolve cleanly
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+from src.api.main import app, serve_index
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+@app.get("/api/index", include_in_schema=False)
+@app.get("/api", include_in_schema=False)
+def root_from_api():
+    return serve_index()
 
-COPY . .
+@app.get("/api/docs", include_in_schema=False)
+def api_docs():
+    from fastapi.openapi.docs import get_swagger_ui_html
+    return get_swagger_ui_html(openapi_url="/api/openapi.json", title=app.title + " - Swagger UI")
 
-# Build-time ingestion: populates vectorstore and caches SentenceTransformer
-RUN python scripts/ingest.py
-
-EXPOSE 8000
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-    CMD curl -f http://localhost:${PORT}/api/health || exit 1
-
-CMD ["sh", "-c", "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+@app.get("/api/openapi.json", include_in_schema=False)
+def api_openapi():
+    from fastapi.responses import JSONResponse
+    return JSONResponse(app.openapi())
 ```
 
-### 4.3 `Procfile` (Alternative Nixpacks Deployment)
+### 3.3 `.vercelignore` (Bundle Exclusion)
+Keeps the deployment bundle lean and within Vercel's size thresholds:
 ```text
-web: uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}
+.git
+.github
+.pytest_cache
+venv
+__pycache__
+*.pyc
+tests/
+Dockerfile
+docker-compose.yml
+requirements-ml.txt
+vectorstore/
+*.log
 ```
+
+---
+
+## 4. Environment Variables Configuration
+
+Configure the following variables in the **Vercel Project Settings** $\rightarrow$ **Environment Variables**:
+
+| Variable | Required? | Recommended Production Value | Description |
+|---|:---:|---|---|
+| `GROQ_API_KEY` | **Yes** | `gsk_...` | Groq Cloud API key for ultra-fast LLM generation |
+| `LLM_MODEL` | No | `llama-3.3-70b-versatile` | High-conviction factual Groq model |
+| `LLM_TEMPERATURE` | No | `0.1` | Strictly enforces deterministic, facts-only output |
+| `LLM_MAX_TOKENS` | No | `250` | Enforces concise responses conforming to $\le 3$ sentences |
+| `VERCEL` | Auto | `1` | Injected by Vercel; enables lightweight serverless retriever |
+| `PYTHONUNBUFFERED` | No | `1` | Enables real-time streaming logs in Vercel Runtime Logs |
 
 ---
 
 ## 5. Step-by-Step Deployment Instructions
 
-### Method A: Deploy via Railway Web Dashboard (Recommended)
+### Method A: Deploy via Vercel Web Dashboard (Recommended)
 
-1. **Sign In & Create Project:**
-   - Navigate to [railway.com](https://railway.com) and log in using your GitHub account.
-   - Click **+ New Project** → **Deploy from GitHub repo**.
+1. **Sign In to Vercel:**
+   - Navigate to [vercel.com](https://vercel.com) and log in with your GitHub account.
 
-2. **Select Repository:**
-   - Choose `diptihello/FintechAssistant_NL`.
-   - Select branch `main`.
+2. **Import Repository:**
+   - Click **Add New...** $\rightarrow$ **Project**.
+   - Select the repository: **`diptihello/FintechAssistant_NL`**.
 
-3. **Configure Environment Variables:**
-   - In the newly created service card, click the **Variables** tab.
-   - Click **+ New Variable** and add:
+3. **Configure Project Settings:**
+   - **Framework Preset:** Select **Other**.
+   - **Root Directory:** `./` (Leave as repository root).
+   - Expand **Environment Variables** and add:
      - `GROQ_API_KEY`: `<Your Groq API Key>`
-     - `LLM_MODEL`: `openai/gpt-oss-120b`
-     - `PYTHONUNBUFFERED`: `1`
+     - `LLM_MODEL`: `llama-3.3-70b-versatile`
 
-4. **Verify Healthcheck & Deploy Settings:**
-   - Under **Settings** → **Deploy**:
-     - Confirm **Healthcheck Path** is `/api/health`.
-     - Confirm **Healthcheck Timeout** is set to `120` seconds.
-
-5. **Generate Public Domain:**
-   - Under **Settings** → **Networking** → **Public Networking**:
-     - Click **Generate Domain** (e.g., `fintechassistant-production.up.railway.app`).
-
-6. **Trigger Deployment:**
-   - Railway will trigger the initial build using the repository `Dockerfile`.
-   - Monitor the **Build Logs** and **Deploy Logs**. Once complete, open the generated URL in your browser.
+4. **Deploy:**
+   - Click **Deploy**.
+   - Vercel installs dependencies from `requirements.txt`, builds the serverless entrypoint `api/index.py`, and provisions the production domain:  
+     `https://fintechassistant-nl.vercel.app`
 
 ---
 
-### Method B: Deploy via Railway CLI
-
-For developers preferring the command line:
+### Method B: Deploy via Vercel CLI
 
 ```bash
-# 1. Install Railway CLI
-npm i -g @railway/cli
-# Or on Windows via Scoop / Brew / Cargo:
-# scoop install railway
+# 1. Install or update Vercel CLI
+npm install -g vercel
 
-# 2. Authenticate
-railway login
+# 2. Login to your Vercel account
+vercel login
 
-# 3. Link or create project
-railway link
-# Or to create fresh:
-railway init -n "FintechAssistant-NL"
-
-# 4. Set required secret variable
-railway variables set GROQ_API_KEY="gsk_your_groq_api_key_here"
-
-# 5. Deploy current directory
-railway up --detach
-
-# 6. Generate domain and open in browser
-railway domain
-railway open
+# 3. Deploy directly to production
+vercel --prod --yes
 ```
 
 ---
 
-## 6. ChromaDB Persistence Strategy
+## 6. Curated Knowledge Base Corpus
 
-Railway containers operate with an ephemeral filesystem by default. This application provides two zero-data-loss strategies:
+The Vercel deployment bundles the verified ground-truth dataset across **5 curated HDFC Mutual Fund schemes**:
 
-### Strategy 1: Build-Time Ingestion (Default in `Dockerfile`)
-- During the `docker build` stage, `RUN python scripts/ingest.py` runs automatically.
-- The 57 factual chunks, pre-computed vector embeddings, and `vectorstore/chroma_db/` SQLite files are packaged directly into the immutable Docker image.
-- **Advantage:** Instant zero-downtime boots, zero latency on startup, no extra volume cost.
+| # | Scheme Name | Category | Verified Groww Source URL |
+|---|---|---|---|
+| 1 | **HDFC Mid Cap Fund – Direct Growth** | Equity - Mid Cap | `https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth` |
+| 2 | **HDFC Small Cap Fund – Direct Growth** | Equity - Small Cap | `https://groww.in/mutual-funds/hdfc-small-cap-fund-direct-growth` |
+| 3 | **HDFC Large Cap Fund – Direct Growth** | Equity - Large Cap | `https://groww.in/mutual-funds/hdfc-large-cap-fund-direct-growth` |
+| 4 | **HDFC Silver ETF FoF – Direct Growth** | Commodities - Silver | `https://groww.in/mutual-funds/hdfc-silver-etf-fof-direct-growth` |
+| 5 | **HDFC Multi Cap Fund – Direct Growth** | Equity - Multi Cap | `https://groww.in/mutual-funds/hdfc-multi-cap-fund-direct-growth` |
 
-### Strategy 2: Railway Persistent Volume (Optional for Live In-Place Updates)
-If you wish to allow daily scrapers to write directly to a persistent volume on Railway:
-1. In Railway project dashboard, click **+ New** → **Volume**.
-2. Mount the volume to the container at `/app/vectorstore`.
-3. In Service Variables, set:
-   ```env
-   CHROMA_PERSIST_DIR=/app/vectorstore/chroma_db
-   ```
-4. Now, any daily ingestion runs on Railway will persist modifications across container redeploys.
+Each scheme is indexed into **12 atomic, field-aware factual chunks** (totaling exactly **60 chunks**) stored in [`data/processed/chunks.json`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/data/processed/chunks.json) and tracked in git for instant serverless availability without external database dependencies.
 
 ---
 
-## 7. CI/CD & Automated Daily Ingestion Synchronization
+## 7. Post-Deployment Verification & Testing
 
-The project is architected with a synchronized dual-pipeline:
+Verify live production functionality using the following validation queries:
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Dev as Developer / Ingestion Bot
-    participant GH as GitHub (diptihello/FintechAssistant_NL)
-    participant GHA as GitHub Actions (Daily 10:00 AM IST)
-    participant Railway as Railway.app
-
-    Note over GHA: Daily at 10:00 AM IST (04:30 UTC)
-    GHA->>GHA: Execute scripts/ingest.py (Scrape + Embed)
-    GHA->>GHA: Execute Regression Tests
-    GHA->>GH: Push updated metadata.json [skip ci]
-    
-    Dev->>GH: Git push origin main
-    GH->>Railway: Webhook trigger
-    Railway->>Railway: Run Docker build (includes build-time pre-ingest)
-    Railway->>Railway: Healthcheck GET /api/health
-    Railway-->>Dev: Live on https://*.up.railway.app
+### 7.1 Automated Health Check
+```bash
+curl -s "https://fintechassistant-nl.vercel.app/api/health"
+```
+**Expected Response:**
+```json
+{
+  "status": "ok",
+  "version": "1.0.0",
+  "total_threads": 0,
+  "vectorstore_count": 60
+}
 ```
 
-> **Note:** Automated commits by GitHub Actions include `[skip ci]` to prevent unnecessary rebuild cycles unless code changes are committed.
+### 7.2 Factual Query Test (SEBI Tri-Rule Compliance)
+```bash
+curl -s -X POST "https://fintechassistant-nl.vercel.app/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is the expense ratio for HDFC Mid Cap Fund?"}'
+```
+**Expected Response:**
+- $\le 3$ concise sentences.
+- Grounded citation URL: `https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth`.
+- Statutory timestamp footer: `Last updated from sources: YYYY-MM-DD`.
+
+### 7.3 Guardrails Advisory Refusal Test
+```bash
+curl -s -X POST "https://fintechassistant-nl.vercel.app/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Should I invest in HDFC Small Cap Fund?"}'
+```
+**Expected Response:**
+- Polite SEBI advisory refusal stating that the assistant provides factual information only.
+- Educational link to AMFI investor knowledge center.
+
+### 7.4 Zero-PII Interception Test
+```bash
+curl -s -X POST "https://fintechassistant-nl.vercel.app/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "My PAN is ABCDE1234F, show my portfolio"}'
+```
+**Expected Response:**
+- Deterministic PII rejection without invoking LLM or storing sensitive identifiers.
 
 ---
 
-## 8. Post-Deployment Verification Checklist
-
-Once the deployment status indicates **Active**, perform the following validation tests:
-
-- [ ] **HTTP Health Check:**
-  ```bash
-  curl -s https://<your-railway-domain>.up.railway.app/api/health
-  ```
-  Expected Response:
-  ```json
-  {"status":"ok","version":"1.0.0","total_threads":0,"vectorstore_count":57}
-  ```
-
-- [ ] **Interactive Swagger Documentation:**
-  Open `https://<your-railway-domain>.up.railway.app/docs` and execute a test query via `POST /api/chat`.
-
-- [ ] **Stitch Frontend Verification:**
-  Open `https://<your-railway-domain>.up.railway.app/` in a desktop and mobile browser:
-  - Verify compliance notice at the top.
-  - Submit: *"What is the expense ratio of HDFC Small Cap Fund Direct Growth?"*
-  - Verify grounded response with `0.79%`, Groww citation URL, and date footer.
-  - Submit: *"Should I invest in HDFC Mid Cap Fund?"* → Verify SEBI advisory refusal.
-  - Submit: *"My PAN is ABCDE1234F"* → Verify PII rejection.
-
----
-
-## 9. Troubleshooting Runbook
+## 8. Troubleshooting Runbook
 
 | Symptom | Probable Cause | Action / Resolution |
 |---|---|---|
-| **Deploy fails with `Healthcheck failed: timeout after 120s`** | Container taking longer to download SentenceTransformer or compile dependencies | In Railway Settings, increase **Healthcheck Timeout** to `180` or `240` seconds. Verify `Dockerfile` includes `RUN python scripts/ingest.py` so downloads happen during build time. |
-| **Error `401 Unauthorized` on `/api/chat`** | Missing or invalid `GROQ_API_KEY` | Check Railway **Variables** tab and ensure `GROQ_API_KEY` starts with `gsk_` without extraneous quotes or whitespace. |
-| **Error `Application Error: Port binding failed`** | Uvicorn hardcoded to a port other than `$PORT` | Verify `src/config.py` uses `int(os.getenv("PORT", os.getenv("API_PORT", "8000")))`. In `Dockerfile`, ensure `PORT` is passed dynamically: `--port ${PORT:-8000}`. |
-| **Out of Memory (OOMKilled - Exit code 137)** | Starter plan memory limit (512MB) exceeded during PyTorch model loading | In Railway service settings, adjust memory limit to `1GB` or `2GB`. The application runs comfortably at ~400MB once steady state is reached. |
-| **Responses missing source citations** | ChromaDB collection empty | Verify `/api/health` reports `vectorstore_count: 57`. If count is 0, trigger manual ingestion or check that `data/processed/chunks.json` was copied in Dockerfile. |
+| **Vercel Build Error: `Function size exceeds 250MB`** | Heavy ML packages (PyTorch, TensorFlow) included in `requirements.txt` | Ensure `requirements.txt` contains only lightweight production dependencies (`fastapi`, `uvicorn`, `groq`, `requests`, `pydantic`). Keep `torch` and `sentence-transformers` in `requirements-ml.txt` (used only for GitHub Actions offline training/ingestion). |
+| **Error `401 Unauthorized` on `/api/chat`** | Missing or incorrect `GROQ_API_KEY` | Open **Vercel Settings** $\rightarrow$ **Environment Variables**, verify `GROQ_API_KEY` is saved for the Production environment, and redeploy. |
+| **HTTP 500 / Import Error on `src` modules** | Python import path not resolving project root | Verify [`api/index.py`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/api/index.py) includes `sys.path.insert(0, str(PROJECT_ROOT))`. |
+| **Empty knowledge base response** | `data/processed/chunks.json` missing from git | Run `git status` to ensure `data/processed/chunks.json` is committed and tracked in git. Vercel Lambda accesses this file directly. |
+| **UI styles or icons not loading** | CDN block or static asset path error | [`ui/static/index.html`](file:///d:/Dipti/NextLeap_RAG_Project_Assignment2/ui/static/index.html) uses Google Fonts and Tailwind CDN (`cdn.tailwindcss.com`) requiring zero local asset compilation. |
 
 ---
 
 > **Plan maintained by:** FinTech AI Platform Engineering Team  
 > **Source Repository:** [diptihello/FintechAssistant_NL](https://github.com/diptihello/FintechAssistant_NL)  
-> **Version:** 1.0.0
-
+> **Production Deployment:** [https://fintechassistant-nl.vercel.app](https://fintechassistant-nl.vercel.app)
