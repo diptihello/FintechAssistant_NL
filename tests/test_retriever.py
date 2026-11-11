@@ -51,4 +51,14 @@ def test_retriever_irfc_debt_to_equity(retriever):
     assert "7.5" in top.text
 
 
+def test_retriever_mid_cap_expense_ratio(retriever):
+    chunks = retriever.retrieve("What is the expense ratio of HDFC Mid Cap Fund?", top_k=3)
+    assert len(chunks) > 0
+    top = chunks[0]
+    assert "HDFC Mid Cap" in top.scheme_name
+    assert top.field_name == "expense_ratio"
+    assert "0.74%" in top.text
+
+
+
 

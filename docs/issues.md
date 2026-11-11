@@ -346,6 +346,22 @@ This document details the **manual verification**, bug fixes, architectural edge
     `"The expense ratio of the HDFC Mid Cap Fund – Direct Growth variant is 0.74%.\n\nSource: https://groww.in/mutual-funds/hdfc-mid-cap-fund-direct-growth\nLast updated from sources: 2026-11-11"`.
   - `/api/health` on Vercel returns `vectorstore_count: 71`.
 
+---
+
+### ISS-19: GitHub Actions Regression Test Failure (pytest Command Not Found in CI)
+
+- **Symptoms:** GitHub Actions run failed at Step 7 (`Run Post-Ingestion Regression Tests`) with:
+  `line 1: pytest: command not found (exit code 127)`.
+- **Root Cause Analysis:**
+  1. `pytest` was omitted from `requirements-ml.txt`, so the GitHub runner's Python environment did not install pytest during `pip install -r requirements-ml.txt`.
+  2. The workflow step invoked bare `pytest` instead of `python -m pytest`, causing shell PATH lookup failure.
+- **Resolution:**
+  1. Added `pytest>=7.4.0` and `pytest-asyncio>=0.21.0` to `requirements-ml.txt`.
+  2. Updated `.github/workflows/daily_ingestion.yml` installation step to explicitly install `pip install -r requirements-ml.txt pytest`.
+  3. Changed invocation in `.github/workflows/daily_ingestion.yml` to `python -m pytest tests/test_retriever.py tests/test_classifier.py tests/test_pii_detector.py -v`.
+- **Verification:** Workflow runs regression tests with clean resolution.
+
+
 
 ---
 
