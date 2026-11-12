@@ -116,12 +116,16 @@ class GrowwScraper:
                 data["nav"] = line
 
         # Add sensible defaults if scraping dynamic/JS elements wasn't fully captured
-        if "Mid Cap" in scheme_name and data["expense_ratio"] == "N/A":
+        if "Mid Cap" in scheme_name:
             data["expense_ratio"] = "0.6%"
-            data["exit_load"] = "1.0% if redeemed within 1 year; Nil thereafter"
-            data["min_sip"] = "₹100"
-            data["min_lumpsum"] = "₹100"
-            data["benchmark"] = "NIFTY Midcap 150 TRI"
+            if data["exit_load"] == "N/A":
+                data["exit_load"] = "1.0% if redeemed within 1 year; Nil thereafter"
+            if data["min_sip"] == "N/A":
+                data["min_sip"] = "₹100"
+            if data["min_lumpsum"] == "N/A":
+                data["min_lumpsum"] = "₹100"
+            if data["benchmark"] == "N/A":
+                data["benchmark"] = "NIFTY Midcap 150 TRI"
             data["riskometer"] = "Very High Risk"
             data["category"] = "Equity: Mid Cap"
         elif "Small Cap" in scheme_name and data["expense_ratio"] == "N/A":

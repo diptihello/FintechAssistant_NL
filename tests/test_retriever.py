@@ -51,5 +51,15 @@ def test_retriever_silver_benchmark(retriever):
     assert top.field_name == "benchmark"
 
 
+def test_retriever_mid_cap_nav(retriever):
+    chunks = retriever.retrieve("What is the NAV of HDFC Mid Cap Fund?", top_k=3)
+    assert len(chunks) > 0
+    top = chunks[0]
+    assert "HDFC Mid Cap" in top.scheme_name
+    fields = [c.field_name for c in chunks]
+    assert "nav" in fields or "overview" in fields
+    assert any("227.10" in c.text for c in chunks)
+
+
 
 

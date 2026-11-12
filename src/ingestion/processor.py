@@ -38,7 +38,9 @@ class DocumentProcessor:
         scheme_type = data.get("type", "mutual_fund")
 
         # Field definitions mapping to clean statements
+        nav_val = data.get("nav", "N/A")
         fields_map = [
+            ("nav", f"The Net Asset Value (NAV) of {scheme_name} is {nav_val}."),
             ("expense_ratio", f"The expense ratio of {scheme_name} is {data.get('expense_ratio')}."),
             ("exit_load", f"The exit load for {scheme_name} is {data.get('exit_load')}."),
             ("min_sip", f"The minimum SIP (Systematic Investment Plan) amount for {scheme_name} is {data.get('min_sip')}."),
@@ -72,7 +74,7 @@ class DocumentProcessor:
         # Overview chunk
         overview_id = self.generate_chunk_id(url, "overview")
         overview_text = (
-            f"{scheme_name} ({data.get('category')}) has an expense ratio of {data.get('expense_ratio')}, "
+            f"{scheme_name} ({data.get('category')}) has an NAV of {nav_val}, an expense ratio of {data.get('expense_ratio')}, "
             f"exit load of {data.get('exit_load')}, minimum SIP of {data.get('min_sip')}, "
             f"and benchmark {data.get('benchmark')}. Risk is classified as {data.get('riskometer')}."
         )

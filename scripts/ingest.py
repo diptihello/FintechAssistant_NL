@@ -50,11 +50,12 @@ def run_ingestion() -> None:
 
     for source in DATA_SOURCES:
         url = source["url"]
-        record = clean_by_url.get(url, {
+        clean_target = clean_by_url.get(url, {})
+        record = copy.deepcopy(clean_target) if clean_target else {
             "scheme_name": source["name"],
             "url": url,
             "type": source.get("type", "mutual_fund")
-        })
+        }
 
         # Merge live scraped fields if valid (not empty / not N/A)
         scraped = scraped_by_url.get(url)
@@ -64,12 +65,13 @@ def run_ingestion() -> None:
                     record[k] = v
 
         # Enforce verified ground-truth values from CLEAN_SCHEME_DATA
-        clean_record = clean_by_url.get(url)
-        if clean_record:
-            if "expense_ratio" in clean_record:
-                record["expense_ratio"] = clean_record["expense_ratio"]
-            if "exit_load" in clean_record and (not record.get("exit_load") or len(str(record.get("exit_load")).strip()) <= 3):
-                record["exit_load"] = clean_record["exit_load"]
+        if clean_target:
+            if "expense_ratio" in clean_target:
+                record["expense_ratio"] = clean_target["expense_ratio"]
+            if "nav" in clean_target:
+                record["nav"] = clean_target["nav"]
+            if "exit_load" in clean_target and (not record.get("exit_load") or len(str(record.get("exit_load")).strip()) <= 3):
+                record["exit_load"] = clean_target["exit_load"]
 
         # Always update scrape_date to today
         record["scrape_date"] = today_str
