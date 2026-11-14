@@ -29,7 +29,7 @@
   "total_sources": 5,
   "total_chunks": 65,
   "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
-  "last_full_ingestion": "2026-11-13T12:29:44.019559",
-  "last_scrape_date": "2026-11-13",
+  "last_full_ingestion": "2026-11-14T11:41:45.526236",
+  "last_scrape_date": "2026-11-14",
   "status": "COMPLETED"
 }
